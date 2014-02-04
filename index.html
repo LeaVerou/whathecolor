@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8" />
+<title>whathecolor</title>
+<link rel="stylesheet" href="style.css" />
+
+</head>
+<body>
+
+<h1>whathecolor</h1>
+
+<div id="colors">
+	<div id="solution" class="color" title="Color to guess"></div>
+	<div id="yourcolor" class="color" title="Your guess"></div>
+</div>
+
+<input id="attempt" placeholder="rgb(???, ???, ???)" autofocus />
+
+<output id="proximity" title="Proximity">0%</output>
+
+<p id="timer"></p>
+
+<p class="hint">Any CSS color notation supported by your browser is valid, including named colors, #hex, <code>rgb()</code>, <code>hsl()</code> etc. Use the keyboard up/down arrow keys to increment/decrement numbers.</p>
+
+<footer>Made with &hearts; by <a href="http://lea.verou.me">Lea Verou</a></footer>
+
+<script src="color.js"></script>
+<script src="http://leaverou.github.io/incrementable/incrementable.js" id="incrementable" async></script>
+<script src="whathecolor.js"></script>
+
+</body>
+</html>
