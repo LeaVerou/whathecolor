@@ -97,7 +97,7 @@ h1 + p {
 }
 
 .hint {
-	max-width: 25em;
+	max-width: 30em;
 	margin: auto;
 	font-size: smaller;
 }

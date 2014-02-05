@@ -43,7 +43,7 @@ function play() {
 		
 		proximity.textContent = (prox > .9? Math.round(prox * 10000)/100 : Math.round(prox * 1000)/10) + '%';
 		
-		if (prox > .99) {
+		if (prox > .992) {
 			proximity.className = 'success';
 			t.stop();
 		}
