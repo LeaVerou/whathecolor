@@ -269,6 +269,49 @@ p#slow {
 	top: 32em;
 }
 
+#ad {
+	max-width: 25em;
+	margin: 1em auto;
+}
+
+	/* Ad packs */
+	.bsa_it_ad {
+		padding:10px !important;
+		font: inherit !important;
+		overflow: hidden;
+	}
+	
+		.bsa_it_i {
+			display:block;
+			float:none;
+			margin: 0 10px 5px 0 !important;
+		}
+		
+		.bsa_it_ad img {
+			padding:0;
+			border:none;
+		}
+		
+		.bsa_it_ad .bsa_it_t {
+			padding:1px 0 0 0;
+		}
+		
+		.bsa_it_d {
+			font-size: 70% !important;
+		}
+		
+	.bsa_it_p {
+		display: none !important;
+	}
+	
+	#bsap_aplink {
+		display:block;
+		font-size:10px;
+		margin: 0 15px 0;
+		text-align: right;
+		text-decoration: none;
+	}
+
 footer {
 	margin-top: 1em;
 }
