@@ -14,9 +14,9 @@ var _ = self.Color = function (red, green, blue) {
 		this.rgb = _.fromString(arguments[0]).rgb;
 	}
 	else {
-		this.red = red;
-		this.green = green;
-		this.blue = blue;
+		this.red = red || 0;
+		this.green = green || 0;
+		this.blue = blue || 0;
 	}
 };
 
@@ -70,6 +70,12 @@ _.prototype = {
 		return hsl;
 	},
 	
+	set hsl (hsl) {
+		var c = Color.fromString('hsl(' + hsl[0] + ',' + hsl[1] + '%,' + hsl[2] + '%)');
+		
+		this.rgb = c.rgb;
+	},
+	
 	// Euclidean distance of the two colors in the RGB cube
 	distance: function (color) {
 		var dr = this.red - color.red;
@@ -103,6 +109,17 @@ _.prototype = {
 		return 1 - distance/maxDistance;
 	},
 	
+	// Don't use this
+	distanceHSL: function (color) {
+		var hsl = this.hsl;
+		var hsl2 = color.hsl;
+
+		var a = Math.sqrt(hsl[1]*hsl[1] + hsl2[1]*hsl2[1] - 2*hsl[1]*hsl2[1] * Math.cos((hsl[0] - hsl2[0]) * Math.PI/180));
+		var b = hsl[2] - hsl2[2];
+
+		return Math.sqrt(a*a + b*b);
+	},
+	
 	proximityHSL: function (color) {
 		var hsl = this.hsl;
 		var hsl2 = color.hsl;
@@ -121,7 +138,7 @@ _.prototype = {
 			return 1 - dh;
 		}
 		
-		return 1- (dh + ds + dl)/3;
+		return 1 - (dh + ds + dl)/3;
 	}
 };
 
