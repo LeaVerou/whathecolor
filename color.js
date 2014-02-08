@@ -31,12 +31,21 @@ _.prototype = {
 		this.blue = arr[2];
 	},
 	
+	get lightness () {
+		var rgb = this.rgb.map(function(a) { return a / 2.55 });
+		
+		var max = Math.max.apply(Math, rgb),
+		    min = Math.min.apply(Math, rgb);
+			
+		return Math.round((min + max)/2);
+	},
+	
 	get hsl () {
 		var rgb = this.rgb.map(function(a) { return a / 2.55 });
 		
 		var hsl = [],
-			max = Math.max.apply(Math, rgb),
-			min = Math.min.apply(Math, rgb);
+		    max = Math.max.apply(Math, rgb),
+		    min = Math.min.apply(Math, rgb);
 			
 		hsl[2] = Math.round((min + max)/2);
 		

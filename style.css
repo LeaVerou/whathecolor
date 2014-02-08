@@ -5,7 +5,7 @@
 
 body {
 	text-align: center;
-	font: 100% sans-serif;
+	font: 100%/1.5 sans-serif;
 	padding: 1em;
 }
 
@@ -22,12 +22,15 @@ h1 {
 	-webkit-transform-origin: 100% 0;
 	transform: rotate(-90deg);
 	transform-origin: 100% 0;
-	color: white;
 	font-size: 500%;
-	line-height: 1;
-	text-shadow: 1px 0 black, -1px 0 black, 0 0 2px black;
+	line-height: 1;	
 	letter-spacing: -1px;
 }
+
+	h1 > span {
+		color: white;
+		text-shadow: 1px 0 black, -1px 0 black, 0 0 2px black;
+	}
 
 h1 + p {
 	padding: 1em 0;
@@ -41,38 +44,38 @@ h1 + p {
 	box-shadow: 0 1px 3px rgba(0,0,0,.5);
 }
 
-.color {
-	display: inline-block;
-	position: relative;
-	
-	width: 200px;
-	height: 200px;
-	background: linear-gradient(45deg, silver 25%, transparent 25%, transparent 75%, silver 75%),
-	            linear-gradient(45deg, silver 25%, transparent 25%, transparent 75%, silver 75%) 10px 10px;
-	background-color: #eee;
-	background-size: 20px 20px;
-}
-
-	#solution {
-		float: left;
+	#colors .color {
+		display: inline-block;
+		position: relative;
+		
+		width: 200px;
+		height: 200px;
+		background: linear-gradient(45deg, silver 25%, transparent 25%, transparent 75%, silver 75%),
+		            linear-gradient(45deg, silver 25%, transparent 25%, transparent 75%, silver 75%) 10px 10px;
+		background-color: #eee;
+		background-size: 20px 20px;
 	}
 	
-	#yourcolor {
-		float: right;
-	}
-
-	.color:before {
-		content: attr(title);
-		position: absolute;
-		bottom: 0;
-		left: 0; right: 0;
-		padding: .5em .8em .6em;
-		background: rgba(0,0,0,.5);
-		color: white;
-		text-shadow: 0 0 2px black;
-		font-size: smaller;
-		font-weight: bold;
-	}
+		#solution {
+			float: left;
+		}
+		
+		#yourcolor {
+			float: right;
+		}
+	
+		#colors .color:before {
+			content: attr(title);
+			position: absolute;
+			bottom: 0;
+			left: 0; right: 0;
+			padding: .5em .8em .6em;
+			background: rgba(0,0,0,.5);
+			color: white;
+			text-shadow: 0 0 2px black;
+			font-size: smaller;
+			font-weight: bold;
+		}
 
 #attempt, code {
 	font-family: Consolas, Monaco, monospace;
@@ -100,6 +103,7 @@ h1 + p {
 	max-width: 30em;
 	margin: auto;
 	font-size: smaller;
+	color: gray;
 }
 
 #proximity {
@@ -109,7 +113,7 @@ h1 + p {
 	margin-left: 160px;
 	width: 4em;
 	height: 4em;
-	padding: 1.15em .5em;
+	padding: 1.1em .5em;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	border-radius: 50%;
@@ -164,15 +168,105 @@ h1 + p {
 	#proximity:before {
 		content: attr(title);
 		display: block;
-		margin-bottom: .5em;
-		font-size: 40%;
+		margin-bottom: .4em;
+		font-size: 50%;
+		line-height: 1;
 		font-weight: normal;
 		letter-spacing: 0;
+	}
+
+
+.message {
+	display: none;
+	width: 24em;
+	padding: .5em .8em;
+	margin: 1em auto;
+	border-radius: .15em;
+}
+
+	.message.show {
+		display: block;
+	}
+	
+	.message a,
+	#successes #tweet {
+		display: inline-block;
+		padding: .2em .5em;
+		border: 1px solid rgba(0, 0, 0, .2);
+		border-radius: .3em;
+		background: linear-gradient(hsla(0,0%,100%,.3), hsla(0,0%,100%,0));
+		box-shadow: 0 1px hsla(0,0%,100%,.6) inset;
+		color: white;
+		text-decoration: none;
+	}
+	
+	.message a {
+		text-transform: uppercase;
+		font-size: 80%;
+	}
+	
+	.message a:active,
+	#successes #tweet:active {
+		background-image: none;
+		box-shadow: 0 1px 5px rgba(0,0,0,.6) inset;
+	}
+	
+p#success {
+	border: 1px solid hsl(80,100%,45%);
+	background: hsl(80,100%,90%);
+	color: hsl(80,100%,20%);
+}
+
+	p#success a {
+		background-color: hsl(80,100%,30%);
+	}
+
+p#slow {
+	border: 1px solid hsl(0, 100%, 70%);
+	background: hsl(0, 100%, 90%);
+	color: hsl(0, 100%, 20%);
+}
+
+	p#slow a {
+		background-color: hsl(0, 100%, 30%);
 	}
 
 #timer {
 	margin: .5em 0;
 	font-size: 250%;
+}
+
+#successes {
+	display: none;
+	position: fixed;
+	top: 0; bottom: 0; right: 0;
+	width: 12em;
+	background: #eee;
+}
+
+	#successes.show {
+		display: block;
+	}
+
+	#successes .color {
+		padding: .1em;
+		font-size: 200%;
+		font-weight: 100;
+	}
+	
+	#successes #tweet {
+		margin: 1em auto;
+		font-weight: bold;
+		background-color: #112;
+		font-size: 120%;
+		letter-spacing: -1px;
+		text-shadow: 0 -1px 2px black;
+	}
+	
+.twitter-share-button {
+	position: absolute;
+	right: 13em;
+	top: 1em;
 }
 
 footer {
