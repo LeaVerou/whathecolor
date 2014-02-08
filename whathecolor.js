@@ -137,6 +137,8 @@ var _ = self.Whathecolor = {
 			// Try harder!
 			proximity.className = 'close-' + Math.floor(prox * 10)*10 + '%';
 		}
+		
+		return false;
 	},
 	
 	historyPush: function(color, t) {
