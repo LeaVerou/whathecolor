@@ -237,7 +237,7 @@ p#slow {
 }
 
 #successes {
-	display: none;
+	xdisplay: none;
 	position: fixed;
 	top: 0; bottom: 0; right: 0;
 	width: 12em;
@@ -265,8 +265,8 @@ p#slow {
 	
 .twitter-share-button {
 	position: absolute;
-	right: 13em;
-	top: 1em;
+	left: 2em;
+	top: 32em;
 }
 
 footer {
