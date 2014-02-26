@@ -198,5 +198,3 @@ if (window.Incrementable) {
 $$('.message a').forEach(function(a) {
 	a.onclick = Whathecolor.play;
 });
-
-Whathecolor.play();

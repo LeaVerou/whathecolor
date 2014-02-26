@@ -56,6 +56,19 @@ h1 + p {
 		background-size: 20px 20px;
 	}
 	
+		#colors .color button {
+			padding: .35em .8em .4em;
+			border: 1px solid rgba(0,0,0,.3);
+			border-radius: .2em;
+			margin-top: 2em;
+			outline: none;
+			background: yellowgreen linear-gradient(yellowgreen, hsl(80,80%,35%));
+			box-shadow: 0 1px hsla(0,0%,100%,.8) inset, 0 4px 8px -2px black;
+			color: hsl(80,80%,20%);
+			text-shadow: 0 1px 1px white;
+			font-size: 150%;
+		}
+	
 		#solution {
 			float: left;
 		}

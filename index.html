@@ -14,15 +14,15 @@
 </h1>
 
 <div id="colors">
-	<div id="solution" class="color" title="Color to guess"></div>
+	<div id="solution" class="color" title="Color to guess"><button onclick="this.parentNode.removeChild(this); Whathecolor.play();" autofocus>Play!</button></div>
 	<div id="yourcolor" class="color" title="Your guess"></div>
 </div>
 
-<input id="attempt" placeholder="rgb(), hsl() etc" autofocus />
+<input id="attempt" placeholder="rgb(), hsl() etc" />
 
 <output id="proximity" title="Proximity">0%</output>
 
-<p id="timer"></p>
+<p id="timer">00:00.0</p>
 
 <p id="success" class="message">
 	Yay! You got it!
