@@ -81,7 +81,6 @@ function pad(number, zeros) {
 var t_; // Variable to hold timer
 
 var _ = self.Whathecolor = {
-
 	solved: false,
 	
 	play: function () {
@@ -91,10 +90,9 @@ var _ = self.Whathecolor = {
 		
 		solution.style.background = color;
 		
-		if(t != null)
-			t.stop()
-		t = new Timer(timer);
-		t.start();
+		t_ && t_.stop()
+		t_ = new Timer(timer);
+		t_.start();
 		
 		// Clean up from previous attempts
 		proximity.textContent = '0%';
