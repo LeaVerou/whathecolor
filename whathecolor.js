@@ -78,8 +78,10 @@ function pad(number, zeros) {
 (function(){
 
 // Beware, awful code lies ahead
+var t_; // Variable to hold timer
 
 var _ = self.Whathecolor = {
+
 	solved: false,
 	
 	play: function () {
@@ -89,7 +91,9 @@ var _ = self.Whathecolor = {
 		
 		solution.style.background = color;
 		
-		var t = new Timer(timer);
+		if(t != null)
+			t.stop()
+		t = new Timer(timer);
 		t.start();
 		
 		// Clean up from previous attempts
