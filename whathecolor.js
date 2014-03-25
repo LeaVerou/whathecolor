@@ -110,7 +110,7 @@ var _ = self.Whathecolor = {
 			
 			var guess = Color.fromString(this.value);
 			
-			if (t.minutes >= 3) {
+			if (t_.minutes >= 3) {
 				slow.classList.add('show');
 			}
 			
@@ -126,11 +126,11 @@ var _ = self.Whathecolor = {
 			
 			if (prox > .992) {
 				// You won!
-				t.stop();
+				t_.stop();
 				proximity.className = 'success';
 				slow.classList.remove('show');
 				success.classList.add('show');
-				_.historyPush(color, t);
+				_.historyPush(color, t_);
 				_.solved = true;
 				
 				return;
@@ -147,7 +147,7 @@ var _ = self.Whathecolor = {
 		var c = document.createElement('article');
 		c.className = 'color';
 		c.style.background = color;
-		c.textContent = t + '';
+		c.textContent = t_ + '';
 		
 		if (color.lightness <= 55) {
 			c.style.color = 'white';
@@ -156,8 +156,8 @@ var _ = self.Whathecolor = {
 		successes.insertBefore(c, successes.firstChild);
 		successes.classList.add('show');
 		
-		_.history.push({color: color, timer: t});
-		_.totalTime += t.ms100;
+		_.history.push({color: color, timer: t_});
+		_.totalTime += t_.ms100;
 		
 		tweet.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(_.tweet());
 	},
