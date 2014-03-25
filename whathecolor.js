@@ -78,7 +78,7 @@ function pad(number, zeros) {
 (function(){
 
 // Beware, awful code lies ahead
-var t_; // Variable to hold timer
+var t; // Variable to hold timer
 
 var _ = self.Whathecolor = {
 	solved: false,
@@ -90,9 +90,9 @@ var _ = self.Whathecolor = {
 		
 		solution.style.background = color;
 		
-		t_ && t_.stop()
-		t_ = new Timer(timer);
-		t_.start();
+		t && t.stop()
+		t = new Timer(timer);
+		t.start();
 		
 		// Clean up from previous attempts
 		proximity.textContent = '0%';
@@ -110,7 +110,7 @@ var _ = self.Whathecolor = {
 			
 			var guess = Color.fromString(this.value);
 			
-			if (t_.minutes >= 3) {
+			if (t.minutes >= 3) {
 				slow.classList.add('show');
 			}
 			
@@ -126,11 +126,11 @@ var _ = self.Whathecolor = {
 			
 			if (prox > .992) {
 				// You won!
-				t_.stop();
+				t.stop();
 				proximity.className = 'success';
 				slow.classList.remove('show');
 				success.classList.add('show');
-				_.historyPush(color, t_);
+				_.historyPush(color, t);
 				_.solved = true;
 				
 				return;
@@ -147,7 +147,7 @@ var _ = self.Whathecolor = {
 		var c = document.createElement('article');
 		c.className = 'color';
 		c.style.background = color;
-		c.textContent = t_ + '';
+		c.textContent = t + '';
 		
 		if (color.lightness <= 55) {
 			c.style.color = 'white';
@@ -156,8 +156,8 @@ var _ = self.Whathecolor = {
 		successes.insertBefore(c, successes.firstChild);
 		successes.classList.add('show');
 		
-		_.history.push({color: color, timer: t_});
-		_.totalTime += t_.ms100;
+		_.history.push({color: color, timer: t});
+		_.totalTime += t.ms100;
 		
 		tweet.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(_.tweet());
 	},
