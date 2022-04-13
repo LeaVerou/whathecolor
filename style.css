@@ -23,7 +23,7 @@ h1 {
 	transform: rotate(-90deg);
 	transform-origin: 100% 0;
 	font-size: 500%;
-	line-height: 1;	
+	line-height: 1;
 	letter-spacing: -1px;
 }
 
@@ -47,7 +47,7 @@ h1 + p {
 	#colors .color {
 		display: inline-block;
 		position: relative;
-		
+
 		width: 200px;
 		height: 200px;
 		background: linear-gradient(45deg, silver 25%, transparent 25%, transparent 75%, silver 75%),
@@ -55,7 +55,7 @@ h1 + p {
 		background-color: #eee;
 		background-size: 20px 20px;
 	}
-	
+
 		#colors .color button {
 			padding: .35em .8em .4em;
 			border: 1px solid rgba(0,0,0,.3);
@@ -68,15 +68,15 @@ h1 + p {
 			text-shadow: 0 1px 1px white;
 			font-size: 150%;
 		}
-	
+
 		#solution {
 			float: left;
 		}
-		
+
 		#yourcolor {
 			float: right;
 		}
-	
+
 		#colors .color:before {
 			content: attr(title);
 			position: absolute;
@@ -127,7 +127,6 @@ h1 + p {
 	width: 4em;
 	height: 4em;
 	padding: 1.1em .5em;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	border-radius: 50%;
 	background: black;
@@ -139,47 +138,47 @@ h1 + p {
 	letter-spacing: -1px;
 	box-shadow: 0 1px 5px rgba(0,0,0,.5), 0 0 0 4px rgba(0,0,0,.1) inset;
 }
-	
+
 	#proximity.success {
 		background: hsl(90, 80%, 35%);
 	}
-	
+
 	#proximity.close-0\% {
 		background: darkred;
 	}
-	
+
 	#proximity.close-10\% {
 		background: red;
 	}
-	
+
 	#proximity.close-20\%,
 	#proximity.close-30\% {
 		background: hsl(20, 100%, 50%);
 	}
-	
+
 	#proximity.close-40\%,
 	#proximity.close-50\% {
 		background: hsl(30, 100%, 50%);
 	}
-	
+
 	#proximity.close-60\% {
 		background: hsl(40, 100%, 45%);
 	}
-	
+
 	#proximity.close-70\% {
 		background: hsl(50, 100%, 45%);
 	}
-	
+
 	#proximity.close-80\% {
 		background: hsl(65, 100%, 40%);
 	}
-	
+
 	#proximity.close-90\% {
 		background: hsl(75, 100%, 40%);
 	}
 
 	#proximity:before {
-		content: attr(title);
+		content: attr(data-label);
 		display: block;
 		margin-bottom: .4em;
 		font-size: 50%;
@@ -200,7 +199,7 @@ h1 + p {
 	.message.show {
 		display: block;
 	}
-	
+
 	.message a,
 	#successes #tweet {
 		display: inline-block;
@@ -212,18 +211,18 @@ h1 + p {
 		color: white;
 		text-decoration: none;
 	}
-	
+
 	.message a {
 		text-transform: uppercase;
 		font-size: 80%;
 	}
-	
+
 	.message a:active,
 	#successes #tweet:active {
 		background-image: none;
 		box-shadow: 0 1px 5px rgba(0,0,0,.6) inset;
 	}
-	
+
 p#success {
 	border: 1px solid hsl(80,100%,45%);
 	background: hsl(80,100%,90%);
@@ -266,7 +265,7 @@ p#slow {
 		font-size: 200%;
 		font-weight: 100;
 	}
-	
+
 	#successes #tweet {
 		margin: 1em auto;
 		font-weight: bold;
@@ -275,7 +274,7 @@ p#slow {
 		letter-spacing: -1px;
 		text-shadow: 0 -1px 2px black;
 	}
-	
+
 .twitter-share-button {
 	position: absolute;
 	left: 2em;
@@ -293,30 +292,30 @@ p#slow {
 		font: inherit !important;
 		overflow: hidden;
 	}
-	
+
 		.bsa_it_i {
 			display:block;
 			float:none;
 			margin: 0 10px 5px 0 !important;
 		}
-		
+
 		.bsa_it_ad img {
 			padding:0;
 			border:none;
 		}
-		
+
 		.bsa_it_ad .bsa_it_t {
 			padding:1px 0 0 0;
 		}
-		
+
 		.bsa_it_d {
 			font-size: 70% !important;
 		}
-		
+
 	.bsa_it_p {
 		display: none !important;
 	}
-	
+
 	#bsap_aplink {
 		display:block;
 		font-size:10px;
@@ -327,4 +326,16 @@ p#slow {
 
 footer {
 	margin-top: 1em;
+}
+
+#progression {
+	display: flex;
+	width: 25em;
+	height: 2em;
+	margin: auto;
+	margin-bottom: .5em;
+}
+
+#progression > div {
+	flex: 1;
 }

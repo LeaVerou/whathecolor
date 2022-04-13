@@ -1,3 +1,7 @@
+import Color from "https://colorjs.io/color.js";
+
+globalThis.Color = Color;
+
 function $(expr, con) {
 	return typeof expr === 'string'? (con || document).querySelector(expr) : expr;
 }
@@ -6,11 +10,13 @@ function $$(expr, con) {
 	return Array.prototype.slice.call((con || document).querySelectorAll(expr));
 }
 
-// Make each ID a global variable
-// Many browsers do this anyway (it’s in the HTML5 spec), so it ensures consistency
-$$('[id]').forEach(function(element) { window[element.id] = element; });
-
-(function(){
+function getRandomColor() {
+	return new Color("srgb", [
+		Math.random(),
+		Math.random(),
+		Math.random()
+	]);
+}
 
 var _ = self.Timer = function (element) {
 	if (element) {
@@ -64,12 +70,11 @@ function pad(number, zeros) {
 	return numstr;
 }
 
-})();
-
-(function(){
-
 // Beware, awful code lies ahead
 var t; // Variable to hold timer
+
+// Color attempts
+let attempts;
 
 var _ = self.Whathecolor = {
 	solved: false,
@@ -77,7 +82,7 @@ var _ = self.Whathecolor = {
 	play: function () {
 		_.solved = false;
 
-		var color = Color.random();
+		var color = getRandomColor();
 
 		solution.style.background = color;
 
@@ -89,6 +94,7 @@ var _ = self.Whathecolor = {
 		proximity.textContent = '0%';
 		attempt.value = '';
 		yourcolor.style.background = '';
+		attempts = [];
 
 		attempt.focus();
 
@@ -97,25 +103,33 @@ var _ = self.Whathecolor = {
 				return;
 			}
 
-			yourcolor.style.background = this.value;
+			yourcolor.style.background = "";
 
-			var guess = Color.fromString(this.value);
+			let guess;
+			try {
+				guess = new Color(this.value);
+				this.classList.remove('invalid');
+			}
+			catch (e) {
+				this.classList.add('invalid');
+				return;
+			}
+
+			yourcolor.style.background = guess.toString({fallback: ["p3", "srgb"]});
+
+			attempts.push(guess);
 
 			if (t.minutes >= 3) {
 				slow.classList.add('show');
 			}
 
-			if (!guess) {
-				this.classList.add('invalid');
-				return;
-			}
-			this.classList.remove('invalid');
+			let deltaE = color.deltaE(guess, {method: "OK"});
+			let prox = 1 - deltaE;
 
-			var prox = (color.proximity(guess) + color.proximityHSL(guess))/2;
+			proximity.textContent = `${Math.round(prox * 1000)/10}%`;
+			proximity.title = `DeltaE OK = ${deltaE}`;
 
-			proximity.textContent = (prox > .9? Math.round(prox * 10000)/100 : Math.round(prox * 1000)/10) + '%';
-
-			if (prox > .992) {
+			if (prox > .991) {
 				// You won!
 				t.stop();
 				proximity.className = 'success';
@@ -123,6 +137,8 @@ var _ = self.Whathecolor = {
 				success.classList.add('show');
 				_.historyPush(color, t);
 				_.solved = true;
+				console.log(attempts);
+				progression.innerHTML = attempts.map(c => `<div style="background: ${c.toString({fallback: ["p3", "srgb"]})}"></div>`).join('');
 
 				return;
 			}
@@ -175,17 +191,7 @@ var _ = self.Whathecolor = {
 	totalTime: 0
 };
 
-})();
-
-incrementable.onload = function() {
-	if (window.Incrementable) {
-		new Incrementable(attempt);
-	}
-};
-
-if (window.Incrementable) {
-	incrementable.onload();
-}
+import("https://incrementable.verou.me/incrementable.js").then(module => new module.default(attempt));
 
 
 $$('.message a').forEach(function(a) {
