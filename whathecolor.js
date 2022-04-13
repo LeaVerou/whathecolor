@@ -131,7 +131,7 @@ var _ = self.Whathecolor = {
 
 			progression.innerHTML = attempts.map(c => `<div style="background: ${c.toString({fallback: ["p3", "srgb"]})}"></div>`).join('');
 
-			if (prox > .991) {
+			if (prox > .99) {
 				// You won!
 				t.stop();
 				proximity.className = 'success';
