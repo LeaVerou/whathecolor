@@ -129,6 +129,8 @@ var _ = self.Whathecolor = {
 			proximity.textContent = `${Math.round(prox * 1000)/10}%`;
 			proximity.title = `DeltaE OK = ${deltaE}`;
 
+			progression.innerHTML = attempts.map(c => `<div style="background: ${c.toString({fallback: ["p3", "srgb"]})}"></div>`).join('');
+
 			if (prox > .991) {
 				// You won!
 				t.stop();
@@ -137,8 +139,6 @@ var _ = self.Whathecolor = {
 				success.classList.add('show');
 				_.historyPush(color, t);
 				_.solved = true;
-				console.log(attempts);
-				progression.innerHTML = attempts.map(c => `<div style="background: ${c.toString({fallback: ["p3", "srgb"]})}"></div>`).join('');
 
 				return;
 			}
