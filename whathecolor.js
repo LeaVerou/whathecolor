@@ -115,7 +115,7 @@ var _ = self.Whathecolor = {
 				return;
 			}
 
-			yourcolor.style.background = guess.toString({fallback: ["p3", "srgb"]});
+			yourcolor.style.background = guess.display();
 
 			attempts.push(guess);
 
@@ -129,7 +129,7 @@ var _ = self.Whathecolor = {
 			proximity.textContent = `${Math.round(prox * 1000)/10}%`;
 			proximity.title = `DeltaE OK = ${deltaE}`;
 
-			progression.innerHTML = attempts.map(c => `<div style="background: ${c.toString({fallback: ["p3", "srgb"]})}"></div>`).join('');
+			progression.innerHTML = attempts.map(c => `<div style="background: ${c.display()}"></div>`).join('');
 
 			if (prox > .99) {
 				// You won!
