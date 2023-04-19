@@ -1,0 +1,20 @@
+{
+  "name": "whathecolor",
+  "version": "1.0.0",
+  "description": "A color guessing game for CSS developers",
+  "main": "whathecolor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leaverou/whathecolor.git"
+  },
+  "keywords": [
+    "color",
+    "css"
+  ],
+  "author": "Lea Verou",
+  "license": "MIT"
+}
