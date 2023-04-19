@@ -99,7 +99,6 @@ let _ = self.Whathecolor = {
 		}
 
 		successes.insertBefore(c, successes.firstChild);
-		successes.classList.add('show');
 
 		_.history.push({color: color, timer: t});
 		_.totalTime += t.ms100;

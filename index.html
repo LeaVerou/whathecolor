@@ -15,6 +15,8 @@
 	whathe<span>color</span>
 </h1>
 
+<main>
+
 <div id="colors">
 	<div id="solution" class="color" title="Color to guess"><button onclick="this.parentNode.removeChild(this); Whathecolor.play();" autofocus>Play!</button></div>
 	<div id="yourcolor" class="color" title="Your guess"></div>
@@ -40,25 +42,28 @@
 	<a href="#">Skip</a>
 </p>
 
-<p class="hint">
-	Any CSS color notation supported by your browser is valid, including named colors, #hex, <code>rgb()</code>, <code>hsl()</code> etc.
-	Also, CSS level 4 color formats are supported, even if your browser doesn't support them.
-	Use the keyboard up/down arrow keys to increment/decrement numbers.
-</p>
+<ul class="hint">
+	<li>Any CSS color notation supported by your browser is valid, including named colors, #hex, <code>rgb()</code>, <code>hsl()</code> etc.</li>
+	<li>Also, CSS level 4 color formats are supported, even if your browser doesn't support them.</li>
+	<li>Use the keyboard up/down arrow keys to increment/decrement numbers. <kbd>Shift</kbd> + <kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 10.</li>
+</ul>
 
-<section id="successes">
+</main>
+
+<aside id="successes">
 	<a href="https://twitter.com/intent/tweet?text=" target="_blank" id="tweet">Tweet score!</a>
-</section>
+</aside>
 
 <footer>
 	Made with ❤️ by <a href="http://lea.verou.me">Lea Verou</a> using <a href="https://colorjs.io">Color.js</a>
 	&bull; <a href="https://github.com/LeaVerou/whathecolor" target="_blank">Github</a>
+
+<a href="https://twitter.com/share" class="twitter-share-button" data-via="LeaVerou" data-hashtags="whathecolor" data-count="vertical">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 </footer>
 
 <script src="js/whathecolor.js" type="module"></script>
 
-<a href="https://twitter.com/share" class="twitter-share-button" data-via="LeaVerou" data-hashtags="whathecolor" data-count="vertical">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
