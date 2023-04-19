@@ -1,84 +1,30 @@
 import Color from "https://colorjs.io/color.js";
+import { $, $$ } from "./util.js";
+import Timer from "./timer.js";
 
 globalThis.Color = Color;
 
-function $(expr, con) {
-	return typeof expr === 'string'? (con || document).querySelector(expr) : expr;
-}
-
-function $$(expr, con) {
-	return Array.prototype.slice.call((con || document).querySelectorAll(expr));
-}
-
-function getRandomColor() {
-	return new Color("srgb", [
-		Math.random(),
-		Math.random(),
-		Math.random()
-	]);
-}
-
-class Timer {
-	constructor (element) {
-		if (element) {
-			this.timer = element;
-			this.timer.textContent = '00:00.0';
-		}
-
-		this.ms100 = 0;
-	}
-
-	get seconds () {
-		return (this.ms100 % 600) / 10 << 0;
-	}
-
-	get minutes () {
-		return this.ms100 / 600 << 0;
-	}
-
-	start () {
-		var me = this;
-
-		this.interval = setInterval(function name() {
-			me.ms100 += 1;
-
-			requestAnimationFrame(function () {
-				me.timer.textContent = me.toString();
-			});
-		}, 100);
-	}
-
-	stop () {
-		clearInterval(this.interval);
-	}
-
-	toString () {
-		let mm = (this.minutes + '').padStart(2, '0');
-		let ss = (this.seconds + '').padStart(2, '0');
-		let ms100 = this.ms100 % 10;
-		return `${ mm }:${ ss }.${ ms100 })}`;
-	}
-}
-
-// Private helpers
-
 // Beware, awful code lies ahead
-var t; // Variable to hold timer
+let t; // Variable to hold timer
 
 // Color attempts
 let attempts;
 
-var _ = self.Whathecolor = {
+let _ = self.Whathecolor = {
 	solved: false,
 
 	play: function () {
 		_.solved = false;
 
-		var color = getRandomColor();
+		let color = new Color("srgb", [
+			Math.random(),
+			Math.random(),
+			Math.random()
+		]);
 
 		solution.style.background = color;
 
-		t && t.stop()
+		t?.stop()
 		t = new Timer(timer);
 		t.start();
 
@@ -143,7 +89,7 @@ var _ = self.Whathecolor = {
 	},
 
 	historyPush: function(color, t) {
-		var c = document.createElement('article');
+		let c = document.createElement('article');
 		c.className = 'color';
 		c.style.background = color;
 		c.textContent = t + '';
@@ -162,20 +108,17 @@ var _ = self.Whathecolor = {
 	},
 
 	tweet: function () {
-		var total = _.history.length;
+		let total = _.history.length;
 
-		var t = new Timer();
+		let t = new Timer();
 		t.ms100 = _.totalTime;
 
-		var avg = new Timer();
+		let avg = new Timer();
 		avg.ms100 = Math.round(_.totalTime/total);
 
-		var text = 'I guessed ' +
-		 total + ' color' + (total > 1? 's' : '') +
-		 ' correctly in ' + t + ' on #whathecolor! Can you beat my average of ' +
-		 avg + ' per color? ' + location.href + ' by @LeaVerou';
-
-		return text;
+		return `I guessed ${total} color${total > 1? 's' : ''} correctly in ${t} on #whathecolor!
+Can you beat my average of ${avg} per color?
+https://whathecolor.com by @LeaVerou`
 	},
 
 	history: [],
@@ -186,6 +129,4 @@ var _ = self.Whathecolor = {
 import("https://incrementable.verou.me/incrementable.js").then(module => new module.default(attempt));
 
 
-$$('.message a').forEach(function(a) {
-	a.onclick = Whathecolor.play;
-});
+$$('.message a').forEach(a => a.onclick = Whathecolor.play);
