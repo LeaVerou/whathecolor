@@ -32,6 +32,23 @@ h1 {
 		text-shadow: 1px 0 black, -1px 0 black, 0 0 2px black;
 	}
 
+	@supports (color: oklch(0% 0 0)) and (-webkit-background-clip: text) {
+		h1 > span {
+			--hc: 70% .2;
+			/* Why so many stops? Because in oklch longer seems borked */
+			background: linear-gradient(to left in oklch,
+				oklch(var(--hc) 0), oklch(var(--hc) 60),
+				oklch(var(--hc) 120), oklch(var(--hc) 180),
+				oklch(var(--hc) 240), oklch(var(--hc) 300),
+				oklch(var(--hc) 360)
+			);
+			-webkit-background-clip: text;
+			color: transparent;
+			text-shadow: none;
+			-webkit-text-stroke: 1px black;
+		}
+	}
+
 h1 + p {
 	padding: 1em 0;
 }
