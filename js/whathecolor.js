@@ -75,7 +75,8 @@ let _ = self.Whathecolor = {
 				proximity.className = 'success';
 				slow.classList.remove('show');
 				success.classList.add('show');
-				_.historyPush(color, t);
+				hint.innerHTML = '';
+				_.historyPush(color, t, attempts);
 				_.solved = true;
 
 				return;
@@ -88,20 +89,26 @@ let _ = self.Whathecolor = {
 		return false;
 	},
 
-	historyPush: function(color, t) {
-		let c = document.createElement('article');
-		c.className = 'color';
-		c.style.background = color;
-		c.textContent = t + '';
+	historyPush: function(color, t, attempts) {
+		let css = `background: ${color};`;
 
-		if (color.lightness <= 55) {
-			c.style.color = 'white';
+		if (color.get("oklch.lightness") <= .55) {
+			css += " color: white;"
 		}
 
-		successes.insertBefore(c, successes.firstChild);
+		document.querySelector("#successes > div").insertAdjacentHTML("beforeend",
+			`<article class="color" style="${css}">${t}</article>`);
 
-		_.history.push({color: color, timer: t});
+		_.history.push({color: color, timer: t, attempts: attempts.slice()});
 		_.totalTime += t.ms100;
+
+		let total =  _.history.length;
+		let avg = new Timer();
+		avg.ms100 = Math.round(_.totalTime/total);
+
+		document.querySelector("#successes > header").innerHTML = `
+			<strong>${ total }</strong> color${ _.history.length > 1? 's' : '' },
+			<strong>${ avg }</strong> avg`
 
 		tweet.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(_.tweet());
 	},

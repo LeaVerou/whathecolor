@@ -146,13 +146,24 @@ h1 + p {
 	background: #fdd;
 }
 
-.hint {
-	max-width: 30em;
-	margin: auto;
+.help,
+#hint {
 	font-size: smaller;
-	color: gray;
+	color: hsl(220 10% 50%);
+}
+
+.help {
+	max-width: 30em;
 	text-align: left;
 }
+
+#hint {
+	display: block;
+}
+
+	#hint:empty::before {
+		content: " ";
+	}
 
 #proximity {
 	position: absolute;
@@ -285,10 +296,21 @@ p#slow {
 
 #successes {
 	grid-area: s;
+	display: flex;
+	flex-flow: column;
+	gap: 1px;
 	width: 12em;
-	background: #eee;
+	background: hsl(220 10% 95%);
 	overflow: auto;
 }
+
+	#successes header {
+		padding: .5em;
+		background: hsl(0 0% 0% / .1);
+		text-transform: uppercase;
+		font-size: 80%;
+		font-weight: bold;
+	}
 
 	#successes .color {
 		padding: .1em;
