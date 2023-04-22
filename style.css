@@ -451,12 +451,15 @@ footer {
 	padding: 1rem;
 }
 
+#progression_container:has(#progression:empty) {
+	display: none;
+}
+
 #progression {
 	display: flex;
-	width: 25em;
 	height: 2em;
 	margin: auto;
-	margin-bottom: .5em;
+	margin-bottom: 1em;
 }
 
 #progression > div {
