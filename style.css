@@ -22,6 +22,10 @@ body {
 main {
 	position: relative;
 	grid-area: m;
+	display: flex;
+	flex-flow: column;
+	width: 55em;
+	max-width: 50%;
 	margin: 0 auto;
 	padding: 1rem;
 }
@@ -69,15 +73,16 @@ h1 + p {
 }
 
 #colors {
-	display: inline-block;
-	overflow: hidden;
+	position: relative;
+	display: flex;
+	margin-bottom: 1rem;
 	border: 10px solid white;
 	border-radius: 3px;
 	box-shadow: 0 1px 3px rgba(0,0,0,.5);
 }
 
 	#colors .color {
-		display: inline-block;
+		flex: 1;
 		position: relative;
 
 		width: 200px;
@@ -86,6 +91,7 @@ h1 + p {
 		            linear-gradient(45deg, silver 25%, transparent 25%, transparent 75%, silver 75%) 10px 10px;
 		background-color: #eee;
 		background-size: 20px 20px;
+		background-repeat: round;
 	}
 
 		#colors .color button {
@@ -134,7 +140,7 @@ h1 + p {
 	border: 1px solid rgba(0,0,0,.5);
 	border-radius: .3em;
 	outline: none;
-	margin: 1em auto;
+	margin: .5rem auto 1rem;
 	font-size: 150%;
 }
 
@@ -153,22 +159,39 @@ h1 + p {
 }
 
 .help {
-	max-width: 30em;
 	text-align: left;
 }
 
 #hint {
 	display: block;
+	white-space: normal;
+	min-height: 2.5em;
+	max-width: 100%;
 }
 
-	#hint:empty::before {
-		content: " ";
+.coord,
+.coord-type {
+	display: inline-block;
+	background: hsl(220 10% 50% / .03);
+	padding: .3em;
+	border-radius: .2em;
+	border: 1px solid hsl(220 10% 50% / .05);
+}
+
+	.coord-type {
+		background: hsl(220 10% 50% / .05);
+		line-height: 1;
+		font-weight: bold;
+	}
+
+	.coord-type.active {
+		color: hsl(0 70% 45%);
 	}
 
 #proximity {
 	position: absolute;
-	top: .5rem;
-	right: -2rem;
+	top: -1.2rem;
+	right: -2.3rem;
 	margin-left: 160px;
 	width: 4em;
 	height: 4em;

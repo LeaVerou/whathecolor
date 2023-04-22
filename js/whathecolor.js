@@ -1,5 +1,5 @@
-import Color from "https://colorjs.io/color.js";
-import { $, $$ } from "./util.js";
+
+import { $, $$, Color, getHint } from "./util.js";
 import Timer from "./timer.js";
 
 globalThis.Color = Color;
@@ -43,13 +43,30 @@ let _ = self.Whathecolor = {
 
 			yourcolor.style.background = "";
 
-			let guess;
+			let guess, guessMeta = {}, isValid;
 			try {
-				guess = new Color(this.value);
-				this.classList.remove('invalid');
+				guess = Color.parse(this.value, {meta: guessMeta});
+				guess = new Color(guess); // better to have a color object
+				isValid = true;
 			}
 			catch (e) {
-				this.classList.add('invalid');
+				isValid = false;
+			}
+
+			this.classList.toggle('invalid', !isValid);
+
+			if (isValid) {
+				hint.innerHTML = getHint({meta: guessMeta, color: guess});
+			}
+			else {
+				let functionName = this.value.match(/^\w+(?=\()/)?.[0];
+
+				if (functionName) {
+					hint.innerHTML = getHint({formatId: functionName});
+				}
+			}
+
+			if (!isValid) {
 				return;
 			}
 

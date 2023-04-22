@@ -17,16 +17,17 @@
 
 <main>
 
+<p id="timer">00:00.0</p>
+
 <div id="colors">
 	<div id="solution" class="color" title="Color to guess"><button onclick="this.parentNode.removeChild(this); Whathecolor.play();" autofocus>Play!</button></div>
 	<div id="yourcolor" class="color" title="Your guess"></div>
+	<output id="proximity" data-label="Proximity">0%</output>
 </div>
 
+<code id="hint"></code>
 <input id="attempt" placeholder="rgb(), hsl() etc" />
 
-<output id="proximity" data-label="Proximity">0%</output>
-
-<p id="timer">00:00.0</p>
 <div id="progression_container">
 	Your progress:
 	<div id="progression"></div>
