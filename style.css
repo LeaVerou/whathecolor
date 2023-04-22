@@ -10,7 +10,7 @@ body {
 
 body {
 	display: grid;
-	grid-template-columns: auto 1fr auto;
+	grid-template-columns: auto 1fr 12em;
 	grid-template-rows: 1fr auto;
 	grid-template-areas: "h m s"
 	                     "h f s";
@@ -19,13 +19,28 @@ body {
 	margin: 0;
 }
 
+@media (width < 1000px) {
+	body {
+		grid-template-areas: "h h s"
+		                     "m m s"
+		                     "f f s";
+	}
+}
+
+@media (width < 750px) {
+	body {
+		display: flex;
+		flex-flow: column;
+	}
+}
+
 main {
 	position: relative;
 	grid-area: m;
 	display: flex;
 	flex-flow: column;
-	width: 55em;
-	max-width: 50%;
+	width: min(55em, 80%);
+	max-width: 80%;
 	margin: 0 auto;
 	padding: 1rem;
 }
@@ -34,16 +49,38 @@ a {
 	color: inherit;
 }
 
+kbd {
+	display: inline-block;
+	padding: .1em .4em;
+	min-width: 1em;
+	border: 1px solid hsl(220 10% 90%);
+	border-radius: .2em;
+	margin: 0 .1em;
+	background: hsl(220 10% 97%);
+	text-align: center;
+	line-height: 1;
+	font: inherit;
+}
+
 h1 {
 	grid-area: h;
-	margin-right: -.2em;
-	writing-mode: vertical-lr;
+
 	padding: 1rem;
-	transform: rotate(180deg);
-	text-align: right;
+
 	font-size: 500%;
 	line-height: 1;
 	letter-spacing: -1px;
+	--gradient-direction: to right;
+}
+
+@media (width >= 1000px) {
+	h1 {
+		writing-mode: vertical-lr;
+		margin-right: -.2em;
+		transform: rotate(180deg);
+		text-align: right;
+		--gradient-direction: ;
+	}
 }
 
 	h1 > span {
@@ -55,7 +92,7 @@ h1 {
 		h1 > span {
 			--hc: 70% .2;
 			/* Why so many stops? Because in oklch longer seems borked */
-			background: linear-gradient(in oklch,
+			background: linear-gradient(var(--gradient-direction, ) in oklch,
 				oklch(var(--hc) 0), oklch(var(--hc) 60),
 				oklch(var(--hc) 120), oklch(var(--hc) 180),
 				oklch(var(--hc) 240), oklch(var(--hc) 300),
@@ -313,7 +350,7 @@ p#slow {
 	}
 
 #timer {
-	margin: .5em 0;
+	margin-bottom: .5em;
 	font-size: 250%;
 }
 
@@ -322,10 +359,15 @@ p#slow {
 	display: flex;
 	flex-flow: column;
 	gap: 1px;
-	width: 12em;
 	background: hsl(220 10% 95%);
-	overflow: auto;
+
 }
+
+	@media (width >= 750px) {
+		#successes {
+			overflow: auto;
+		}
+	}
 
 	#successes header {
 		padding: .5em;
@@ -342,7 +384,7 @@ p#slow {
 	}
 
 	#successes #tweet {
-		margin: 1em auto;
+		margin: 1em;
 		font-weight: bold;
 		background-color: #112;
 		font-size: 120%;

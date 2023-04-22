@@ -15,6 +15,8 @@ let _ = self.Whathecolor = {
 
 	play: function () {
 		_.solved = false;
+		hint.innerHTML = "";
+		success.classList.remove('show');
 
 		let color = new Color("srgb", [
 			Math.random(),
@@ -92,7 +94,7 @@ let _ = self.Whathecolor = {
 				proximity.className = 'success';
 				slow.classList.remove('show');
 				success.classList.add('show');
-				hint.innerHTML = '';
+
 				_.historyPush(color, t, attempts);
 				_.solved = true;
 
