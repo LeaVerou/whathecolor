@@ -122,27 +122,27 @@ let _ = self.Whathecolor = {
 		_.totalTime += t.ms100;
 
 		let total =  _.history.length;
-		let avg = new Timer();
-		avg.ms100 = Math.round(_.totalTime/total);
+
+		this.avg ??= new Timer();
+		this.avg.ms100 = Math.round(_.totalTime/total);
+
+		this.total ??= new Timer();
+		this.total.ms100 = _.totalTime;
 
 		document.querySelector("#successes > header").innerHTML = `
-			<strong>${ total }</strong> color${ _.history.length > 1? 's' : '' },
-			<strong>${ avg }</strong> avg`
+			<strong>${ total }</strong> color${ total > 1? 's' : '' },
+			<strong>${ this.avg }</strong> avg,
+			<strong>${ this.total }</strong> total`
 
 		tweet.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(_.tweet());
 	},
 
 	tweet: function () {
-		let total = _.history.length;
+		let count = _.history.length;
 
-		let t = new Timer();
-		t.ms100 = _.totalTime;
+		return `I guessed ${count} color${count > 1? 's' : ''} correctly in ${ this.total } on #whathecolor!
+Can you beat my average of ${ this.avg } per color?
 
-		let avg = new Timer();
-		avg.ms100 = Math.round(_.totalTime/total);
-
-		return `I guessed ${total} color${total > 1? 's' : ''} correctly in ${t} on #whathecolor!
-Can you beat my average of ${avg} per color?
 https://whathecolor.com by @LeaVerou`
 	},
 
