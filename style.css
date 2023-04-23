@@ -10,7 +10,7 @@ body {
 
 body {
 	display: grid;
-	grid-template-columns: auto 1fr 12em;
+	grid-template-columns: auto 1fr 18em;
 	grid-template-rows: 1fr auto;
 	grid-template-areas: "h m s"
 	                     "h f s";
