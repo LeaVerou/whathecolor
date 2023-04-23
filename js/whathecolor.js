@@ -102,7 +102,7 @@ let _ = self.Whathecolor = {
 			}
 
 			// Try harder!
-			proximity.className = 'close-' + Math.floor(prox * 10)*10 + '%';
+			proximity.style.setProperty('--proximity', prox);
 		}
 
 		return false;

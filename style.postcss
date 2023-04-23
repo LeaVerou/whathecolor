@@ -213,6 +213,28 @@ h1 {
 		}
 	}
 
+@keyframes proximity {
+	from {
+		background: hsl(0 100% 30%);
+	}
+
+	10% {
+		background: hsl(0 100% 50%);
+	}
+
+	50% {
+		background: hsl(30 100% 50%);
+	}
+
+	70% {
+		background: hsl(50 100% 45%);
+	}
+
+	90%, to {
+		background: hsl(70 100% 40%);
+	}
+}
+
 #proximity {
 	position: absolute;
 	top: -1.2rem;
@@ -230,44 +252,12 @@ h1 {
 	line-height: 1;
 	font-weight: bold;
 	letter-spacing: -1px;
+	animation: proximity 100s calc(var(--proximity) * -100s) linear paused;
 	box-shadow: 0 1px 5px rgba(0,0,0,.5), 0 0 0 4px rgba(0,0,0,.1) inset;
 
 	&.success {
 		background: hsl(90, 80%, 35%);
-	}
-
-	&.close-0\% {
-		background: darkred;
-	}
-
-	&.close-10\% {
-		background: red;
-	}
-
-	&.close-20\%,
-	&.close-30\% {
-		background: hsl(20, 100%, 50%);
-	}
-
-	&.close-40\%,
-	&.close-50\% {
-		background: hsl(30, 100%, 50%);
-	}
-
-	&.close-60\% {
-		background: hsl(40, 100%, 45%);
-	}
-
-	&.close-70\% {
-		background: hsl(50, 100%, 45%);
-	}
-
-	&.close-80\% {
-		background: hsl(65, 100%, 40%);
-	}
-
-	&.close-90\% {
-		background: hsl(75, 100%, 40%);
+		animation: none;
 	}
 
 	&:before {
