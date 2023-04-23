@@ -381,9 +381,15 @@ p#slow {
 	}
 
 	& .color {
-		padding: .1em;
-		font-size: 200%;
-		font-weight: 100;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: .2em .8em;
+
+		& .time {
+			font-size: 200%;
+			font-weight: 100;
+		}
 	}
 
 	& #tweet {
@@ -448,17 +454,42 @@ footer {
 	padding: 1rem;
 }
 
-#progression_container:has(#progression:empty) {
-	display: none;
+#progression_container {
+	margin-top: .5em;
 }
 
 #progression {
+	position: relative;
 	display: flex;
 	height: 2em;
 	margin: auto;
 	margin-bottom: 1em;
 
+	&[data-attempts]::before {
+		--suffix: " attempts";
+		content: attr(data-attempts) var(--suffix) ", " attr(data-uniqueattempts) " unique";
+		position: absolute;
+		top: -.8em;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	&[data-attempts="1"]::before {
+		--suffix: " attempt";
+	}
+
 	& > div {
 		flex: 1;
 	}
+}
+
+#progression[data-attempts]::before,
+.attempts {
+	padding: .2em .8em;
+	border-radius: .2em;
+	background: black;
+	color: white;
+	font-size: 80%;
+	text-transform: uppercase;
+	font-weight: bold;
 }

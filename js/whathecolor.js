@@ -86,6 +86,9 @@ let _ = self.Whathecolor = {
 			proximity.textContent = `${Math.round(prox * 1000)/10}%`;
 			proximity.title = `DeltaE OK = ${deltaE}`;
 
+			progression.dataset.attempts = attempts.length;
+			progression.dataset.uniqueattempts = getUniqueAttempts(attempts).length;
+
 			progression.innerHTML = attempts.map(c => `<div style="background: ${c.display()}"></div>`).join('');
 
 			if (prox > .99) {
@@ -109,17 +112,23 @@ let _ = self.Whathecolor = {
 	},
 
 	historyPush: function(color, t, attempts) {
-		let css = `background: ${color};`;
+		attempts = getUniqueAttempts(attempts)
+		let attemptGradient = `linear-gradient(to right, ${attempts.map((c, i) => `${ c } 0 ${ (i+1)/attempts.length * 100 }%`).join(', ')})`;
+		let css = `background-color: ${color}; background-image: ${attemptGradient}`;
 
 		if (color.get("oklch.lightness") <= .55) {
 			css += " color: white;"
 		}
 
 		document.querySelector("#successes > div").insertAdjacentHTML("beforeend",
-			`<article class="color" style="${css}">${t}</article>`);
+			`<article class="color" style="${css}">
+				<span class="time">${t}</span>
+				<span class="attempts">${attempts.length} attempts</span>
+			</article>`);
 
 		_.history.push({color: color, timer: t, attempts: attempts.slice()});
 		_.totalTime += t.ms100;
+		_.totalAttempts += attempts.length;
 
 		let total =  _.history.length;
 
@@ -148,10 +157,14 @@ https://whathecolor.com by @LeaVerou`
 
 	history: [],
 
-	totalTime: 0
+	totalTime: 0,
+	totalAttempts: 0,
 };
 
 import("https://incrementable.verou.me/incrementable.js").then(module => new module.default(attempt));
 
+function getUniqueAttempts(attempts) {
+	return [...new Set(attempts.map(c => c.display() + ""))];
+}
 
 $$('.message a').forEach(a => a.onclick = Whathecolor.play);
