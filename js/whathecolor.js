@@ -86,8 +86,8 @@ let _ = self.Whathecolor = {
 			proximity.textContent = `${Math.round(prox * 1000)/10}%`;
 			proximity.title = `DeltaE OK = ${deltaE}`;
 
-			progression.dataset.attempts = attempts.length;
-			progression.dataset.uniqueattempts = getUniqueAttempts(attempts).length;
+			attempt_count.textContent = attempts.length;
+			unique_attempt_count.textContent = getUniqueAttempts(attempts).length;
 
 			progression.innerHTML = attempts.map(c => `<div style="background: ${c.display()}"></div>`).join('');
 
