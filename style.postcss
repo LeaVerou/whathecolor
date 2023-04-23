@@ -177,6 +177,29 @@ h1 {
 	}
 }
 
+.popup {
+	position: absolute;
+	background: white;
+	border: 1px solid hsl(220 10% 90%);
+	padding: .8em 1em;
+	border-radius: .2em;
+	filter: drop-shadow(0 0 1em hsl(220 10% 50% / .3));
+	transition: .2s transform;
+	transform-origin: 2.3em -.8em;
+
+	/* Pointer */
+	&::before {
+		content: '';
+		position: absolute;
+		left: 1.5em;
+		bottom: 100%;
+		aspect-ratio: 2;
+		height: .8em;
+		clip-path: polygon(0 100%, 50% 0, 100% 100%);
+		background: inherit;
+	}
+}
+
 .help,
 #hint {
 	font-size: smaller;
@@ -187,11 +210,18 @@ h1 {
 	text-align: left;
 }
 
+#hint-container {
+	position: relative;
+}
+
 #hint {
-	display: block;
-	white-space: normal;
-	min-height: 2.5em;
-	max-width: 100%;
+	left: 0;
+	margin-top: -1em;
+
+	&:empty,
+	#attempt:not(:focus) ~ #hint-container & {
+		transform: scale(0);
+	}
 }
 
 .coord,
