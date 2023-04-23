@@ -1,11 +1,14 @@
 {
   "name": "whathecolor",
-  "version": "1.0.0",
+  "version": "2.0.0-alpha.1",
   "description": "A color guessing game for CSS developers",
   "main": "whathecolor.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": ""
+    "build:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs",
+    "build": "npm run build:css",
+    "watch:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs --watch",
+    "watch": "npm run watch:css"
   },
   "repository": {
     "type": "git",
@@ -16,5 +19,10 @@
     "css"
   ],
   "author": "Lea Verou",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "postcss": "^8.4.23",
+    "postcss-cli": "^10.1.0",
+    "postcss-nesting": "^11.2.2"
+  }
 }

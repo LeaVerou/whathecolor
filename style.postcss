@@ -1,3 +1,8 @@
+:root {
+	--font-ui: sans-serif;
+	--font-monospace: Consolas, Monaco, monospace;
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -15,20 +20,16 @@ body {
 	grid-template-areas: "h m s"
 	                     "h f s";
 	text-align: center;
-	font: 100%/1.5 sans-serif;
+	font: 100%/1.5 var(--font-ui);
 	margin: 0;
-}
 
-@media (width < 1000px) {
-	body {
+	@media (width < 1000px) {
 		grid-template-areas: "h h s"
 		                     "m m s"
 		                     "f f s";
 	}
-}
 
-@media (width < 750px) {
-	body {
+	@media (width < 750px) {
 		display: flex;
 		flex-flow: column;
 	}
@@ -49,6 +50,10 @@ a {
 	color: inherit;
 }
 
+code {
+	font-family: var(--font-monospace);
+}
+
 kbd {
 	display: inline-block;
 	padding: .1em .4em;
@@ -64,32 +69,25 @@ kbd {
 
 h1 {
 	grid-area: h;
-
 	padding: 1rem;
-
 	font-size: 500%;
 	line-height: 1;
 	letter-spacing: -1px;
 	--gradient-direction: to right;
-}
 
-@media (width >= 1000px) {
-	h1 {
+	@media (width >= 1000px) {
 		writing-mode: vertical-lr;
 		margin-right: -.2em;
 		transform: rotate(180deg);
 		text-align: right;
 		--gradient-direction: ;
 	}
-}
 
-	h1 > span {
+	& > span {
 		color: white;
 		text-shadow: 1px 0 black, -1px 0 black, 0 0 2px black;
-	}
 
-	@supports (color: oklch(0% 0 0)) and (-webkit-background-clip: text) {
-		h1 > span {
+		@supports (color: oklch(0% 0 0)) and (-webkit-background-clip: text) {
 			--hc: 70% .2;
 			/* Why so many stops? Because in oklch longer seems borked */
 			background: linear-gradient(var(--gradient-direction, ) in oklch,
@@ -105,8 +103,9 @@ h1 {
 		}
 	}
 
-h1 + p {
-	padding: 1em 0;
+	& + p {
+		padding: 1em 0;
+	}
 }
 
 #colors {
@@ -116,9 +115,8 @@ h1 + p {
 	border: 10px solid white;
 	border-radius: 3px;
 	box-shadow: 0 1px 3px rgba(0,0,0,.5);
-}
 
-	#colors .color {
+	& .color {
 		flex: 1;
 		position: relative;
 
@@ -129,30 +127,8 @@ h1 + p {
 		background-color: #eee;
 		background-size: 20px 20px;
 		background-repeat: round;
-	}
 
-		#colors .color button {
-			padding: .35em .8em .4em;
-			border: 1px solid rgba(0,0,0,.3);
-			border-radius: .2em;
-			margin-top: 2em;
-			outline: none;
-			background: yellowgreen linear-gradient(yellowgreen, hsl(80,80%,35%));
-			box-shadow: 0 1px hsla(0,0%,100%,.8) inset, 0 4px 8px -2px black;
-			color: hsl(80,80%,20%);
-			text-shadow: 0 1px 1px white;
-			font-size: 150%;
-		}
-
-		#solution {
-			float: left;
-		}
-
-		#yourcolor {
-			float: right;
-		}
-
-		#colors .color:before {
+		&:before {
 			content: attr(title);
 			position: absolute;
 			bottom: 0;
@@ -165,8 +141,19 @@ h1 + p {
 			font-weight: bold;
 		}
 
-#attempt, code {
-	font-family: Consolas, Monaco, monospace;
+		& button {
+			padding: .35em .8em .4em;
+			border: 1px solid rgba(0,0,0,.3);
+			border-radius: .2em;
+			margin-top: 2em;
+			outline: none;
+			background: yellowgreen linear-gradient(yellowgreen, hsl(80,80%,35%));
+			box-shadow: 0 1px hsla(0,0%,100%,.8) inset, 0 4px 8px -2px black;
+			color: hsl(80,80%,20%);
+			text-shadow: 0 1px 1px white;
+			font-size: 150%;
+		}
+	}
 }
 
 #attempt {
@@ -178,15 +165,16 @@ h1 + p {
 	border-radius: .3em;
 	outline: none;
 	margin: .5rem auto 1rem;
+	font-family: var(--font-monospace);
 	font-size: 150%;
-}
 
-#attempt:focus {
-	box-shadow: 0 1px 5px rgba(0,0,0,.4) inset;
-}
+	&:focus {
+		box-shadow: 0 1px 5px rgba(0,0,0,.4) inset;
+	}
 
-#attempt.invalid {
-	background: #fdd;
+	&.invalid {
+		background: #fdd;
+	}
 }
 
 .help,
@@ -219,10 +207,10 @@ h1 + p {
 		background: hsl(220 10% 50% / .05);
 		line-height: 1;
 		font-weight: bold;
-	}
 
-	.coord-type.active {
-		color: hsl(0 70% 45%);
+		&.active {
+			color: black;
+		}
 	}
 
 #proximity {
@@ -243,47 +231,46 @@ h1 + p {
 	font-weight: bold;
 	letter-spacing: -1px;
 	box-shadow: 0 1px 5px rgba(0,0,0,.5), 0 0 0 4px rgba(0,0,0,.1) inset;
-}
 
-	#proximity.success {
+	&.success {
 		background: hsl(90, 80%, 35%);
 	}
 
-	#proximity.close-0\% {
+	&.close-0\% {
 		background: darkred;
 	}
 
-	#proximity.close-10\% {
+	&.close-10\% {
 		background: red;
 	}
 
-	#proximity.close-20\%,
-	#proximity.close-30\% {
+	&.close-20\%,
+	&.close-30\% {
 		background: hsl(20, 100%, 50%);
 	}
 
-	#proximity.close-40\%,
-	#proximity.close-50\% {
+	&.close-40\%,
+	&.close-50\% {
 		background: hsl(30, 100%, 50%);
 	}
 
-	#proximity.close-60\% {
+	&.close-60\% {
 		background: hsl(40, 100%, 45%);
 	}
 
-	#proximity.close-70\% {
+	&.close-70\% {
 		background: hsl(50, 100%, 45%);
 	}
 
-	#proximity.close-80\% {
+	&.close-80\% {
 		background: hsl(65, 100%, 40%);
 	}
 
-	#proximity.close-90\% {
+	&.close-90\% {
 		background: hsl(75, 100%, 40%);
 	}
 
-	#proximity:before {
+	&:before {
 		content: attr(data-label);
 		display: block;
 		margin-bottom: .4em;
@@ -292,7 +279,7 @@ h1 + p {
 		font-weight: normal;
 		letter-spacing: 0;
 	}
-
+}
 
 .message {
 	display: none;
@@ -300,11 +287,11 @@ h1 + p {
 	padding: .5em .8em;
 	margin: 1em auto;
 	border-radius: .15em;
-}
 
-	.message.show {
+	&.show {
 		display: block;
 	}
+}
 
 	.message a,
 	#successes #tweet {
@@ -333,21 +320,21 @@ p#success {
 	border: 1px solid hsl(80,100%,45%);
 	background: hsl(80,100%,90%);
 	color: hsl(80,100%,20%);
-}
 
-	p#success a {
+	& a {
 		background-color: hsl(80,100%,30%);
 	}
+}
 
 p#slow {
 	border: 1px solid hsl(0, 100%, 70%);
 	background: hsl(0, 100%, 90%);
 	color: hsl(0, 100%, 20%);
-}
 
-	p#slow a {
+	& a {
 		background-color: hsl(0, 100%, 30%);
 	}
+}
 
 #timer {
 	margin-bottom: .5em;
@@ -361,15 +348,11 @@ p#slow {
 	gap: 1px;
 	background: hsl(220 10% 95%);
 
-}
-
 	@media (width >= 750px) {
-		#successes {
-			overflow: auto;
-		}
+		overflow: auto;
 	}
 
-	#successes header {
+	& header {
 		padding: .5em;
 		background: hsl(0 0% 0% / .1);
 		text-transform: uppercase;
@@ -377,13 +360,13 @@ p#slow {
 		font-weight: bold;
 	}
 
-	#successes .color {
+	& .color {
 		padding: .1em;
 		font-size: 200%;
 		font-weight: 100;
 	}
 
-	#successes #tweet {
+	& #tweet {
 		margin: 1em;
 		font-weight: bold;
 		background-color: #112;
@@ -392,22 +375,16 @@ p#slow {
 		text-shadow: 0 -1px 2px black;
 	}
 
-	#successes #tweet:only-child {
+	& #tweet:only-child {
 		display: none;
 	}
-
-.twitter-share-button {
-	position: absolute;
-	left: 2em;
-	top: 32em;
 }
-
+/*
 #ad {
 	max-width: 25em;
 	margin: 1em auto;
 }
 
-	/* Ad packs */
 	.bsa_it_ad {
 		padding:10px !important;
 		font: inherit !important;
@@ -444,7 +421,7 @@ p#slow {
 		text-align: right;
 		text-decoration: none;
 	}
-
+*/
 footer {
 	grid-area: f;
 	margin-top: 1em;
@@ -460,8 +437,8 @@ footer {
 	height: 2em;
 	margin: auto;
 	margin-bottom: 1em;
-}
 
-#progression > div {
-	flex: 1;
+	& > div {
+		flex: 1;
+	}
 }
