@@ -67,7 +67,7 @@ export function getHint ({meta, color, formatId}) {
 		let content = a.split("|").map(b => {
 			let [type, name] = b.match(/<(\w+)>/);
 			let active = typesUsed?.[i] == type;
-			console.log(typesUsed?.[i] , type)
+
 			return `<span class="coord-type${ active? " active" : "" }" data-type="${ name }">${ b.replaceAll("<", "&lt;") }</span>`
 		}).join("|")
 		return `<span class="coord" title="${ coordMeta[i].name }">${ content }</span>`
