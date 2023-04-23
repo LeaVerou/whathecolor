@@ -20,7 +20,7 @@
 <p id="timer">00:00.0</p>
 
 <div id="colors">
-	<div id="solution" class="color" title="Color to guess"><button onclick="this.parentNode.removeChild(this); Whathecolor.play();" autofocus>Play!</button></div>
+	<div id="solution" class="color" title="Color to guess"></div>
 	<div id="yourcolor" class="color" title="Your guess"></div>
 	<output id="proximity" data-label="Proximity">0%</output>
 </div>
@@ -28,7 +28,7 @@
 <div id="attempt_container">
 	<span class="attempts"><span id="attempt_count">0</span> attempts, <span id="unique_attempt_count">0</span> unique</span>
 	<div id="progression"></div>
-	<input id="attempt" placeholder="rgb(), hsl() etc" />
+	<input id="attempt" placeholder="rgb(), hsl() etc" autofocus />
 	<code id="hint" class="popup"></code>
 </div>
 

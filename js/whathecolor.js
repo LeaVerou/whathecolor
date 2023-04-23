@@ -28,7 +28,8 @@ let _ = self.Whathecolor = {
 
 		t?.stop()
 		t = new Timer(timer);
-		t.start();
+
+		attempt.addEventListener("input", e => t.start(), {once: true});
 
 		// Clean up from previous attempts
 		proximity.textContent = '0%';
@@ -168,3 +169,5 @@ function getUniqueAttempts(attempts) {
 }
 
 $$('.message a').forEach(a => a.onclick = Whathecolor.play);
+
+Whathecolor.play();
