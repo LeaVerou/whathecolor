@@ -17,6 +17,7 @@ let _ = self.Whathecolor = {
 		_.solved = false;
 		hint.innerHTML = "";
 		success.classList.remove('show');
+		progression.innerHTML = "";
 
 		let color = new Color("srgb", [
 			Math.random(),
