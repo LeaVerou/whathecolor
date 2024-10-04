@@ -53,6 +53,10 @@ export function getHint ({meta, color, formatId}) {
 	else {
 		// Add ranges from coord meta to grammar where there are numbers with no range
 		argGrammar = argGrammar.map((coord, i) => {
+			if (Array.isArray(coord)) {
+				coord = coord.map(c => c.type).join(" | ");
+			}
+
 			let range = ranges[i];
 
 			if (!range) {
