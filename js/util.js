@@ -55,6 +55,19 @@ export function getHint ({meta, color, formatId}) {
 		argGrammar = argGrammar.map((coord, i) => {
 			let range = ranges[i];
 
+			if (Array.isArray(coord)) {
+				coord = coord.map(c => {
+					if (c.type === "<number>") {
+						let r = c.range || c.refRange;
+						if (r) {
+							range = `[${r.join(", ")}]`;
+						}
+					}
+
+					return c.type;
+				}).join(" | ");
+			}
+
 			if (!range) {
 				return coord;
 			}
