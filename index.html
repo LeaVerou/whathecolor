@@ -8,8 +8,12 @@
 <meta name="viewport" content="width=device-width; initial-scale=1.0">
 <link rel="stylesheet" href="style.css" />
 
+<script src="importmap.js"></script>
+
 </head>
 <body>
+
+<div id="app" v-cloak>
 
 <h1>
 	What the <span>color?</span>
@@ -17,29 +21,31 @@
 
 <main>
 
-<p id="timer">00:00.0</p>
+<p id="timer">{{ timerText }}</p>
 
 <div id="colors">
-	<div id="solution" class="color" title="Color to guess"></div>
-	<div id="yourcolor" class="color" title="Your guess"></div>
-	<output id="proximity" data-label="Proximity">0%</output>
+	<div id="solution" class="color" title="Color to guess" :style="{ background: solutionCss }"></div>
+	<div id="yourcolor" class="color" title="Your guess" :style="{ background: yourcolorCss }"></div>
+	<output id="proximity" data-label="Proximity" :class="{ success: solved }" :style="{ '--proximity': proximity }" :title="proximityTitle">{{ proximityText }}</output>
 </div>
 
 <div id="attempt_container">
-	<span class="attempts"><span id="attempt_count">0</span> attempts, <span id="unique_attempt_count">0</span> unique</span>
-	<div id="progression"></div>
-	<input id="attempt" placeholder="rgb(), hsl() etc" autofocus />
-	<code id="hint" class="popup"></code>
+	<span class="attempts"><span id="attempt_count">{{ attempts.length }}</span> attempts, <span id="unique_attempt_count">{{ uniqueCount }}</span> unique</span>
+	<div id="progression">
+		<div v-for="(c, i) in attempts" :key="i" :style="{ background: c.display() }"></div>
+	</div>
+	<input id="attempt" placeholder="rgb(), hsl() etc" autofocus ref="attempt" :value="guessInput" @input="onInput" :class="{ invalid: invalid }" />
+	<code id="hint" class="popup" v-html="hint"></code>
 </div>
 
-<p id="success" class="message">
+<p id="success" class="message" :class="{ show: solved }">
 	Yay! You got it!
-	<a href="#">Next</a>
+	<a href="#" @click.prevent="play">Next</a>
 </p>
 
-<p id="slow" class="message">
+<p id="slow" class="message" :class="{ show: showSlow }">
 	Looks like this color is taking you a bit long. Wanna skip it?
-	<a href="#">Skip</a>
+	<a href="#" @click.prevent="play">Skip</a>
 </p>
 
 <ul class="help">
@@ -52,18 +58,25 @@
 
 <aside id="successes">
 	<header>
-		0 colors, 00:00.0 avg, 00:00.0 total
+		<strong>{{ history.length }}</strong> color{{ history.length === 1 ? '' : 's' }},
+		<strong>{{ avgTime }}</strong> avg,
+		<strong>{{ totalTimeStr }}</strong> total
 	</header>
 	<div>
-
+		<article v-for="(h, i) in history" :key="i" class="color" :style="h.css">
+			<span class="time">{{ h.time }}</span>
+			<span class="attempts">{{ h.attempts }} attempts</span>
+		</article>
 	</div>
-	<a href="https://twitter.com/intent/tweet?text=" target="_blank" id="tweet">Tweet score</a>
+	<a :href="tweetHref" target="_blank" id="tweet" v-if="history.length">Tweet score</a>
 </aside>
 
 <footer>
 	Made with ❤️ by <a href="http://lea.verou.me">Lea Verou</a> using <a href="https://colorjs.io">Color.js</a>
 	&bull; <a href="https://github.com/LeaVerou/whathecolor" target="_blank">Github</a>
 </footer>
+
+</div>
 
 <script src="js/whathecolor.js" type="module"></script>
 

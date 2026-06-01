@@ -1,174 +1,191 @@
-
-import { $, $$, Color, getHint } from "./util.js";
+import { createApp, markRaw } from "vue";
+import { Color, getHint } from "./util.js";
 import Timer from "./timer.js";
 
 globalThis.Color = Color;
 
-// Beware, awful code lies ahead
-let t; // Variable to hold timer
-
-// Color attempts
-let attempts;
-
-let _ = self.Whathecolor = {
-	solved: false,
-
-	play: function () {
-		_.solved = false;
-		hint.innerHTML = "";
-		success.classList.remove('show');
-		progression.innerHTML = "";
-
-		let color = new Color("srgb", [
-			Math.random(),
-			Math.random(),
-			Math.random()
-		]);
-
-		solution.style.background = color;
-
-		t?.stop()
-		t = new Timer(timer);
-
-		attempt.addEventListener("input", e => t.start(), {once: true});
-
-		// Clean up from previous attempts
-		proximity.textContent = '0%';
-		attempt.value = '';
-		yourcolor.style.background = '';
-		attempts = [];
-
-		attempt.focus();
-
-		attempt.oninput = function () {
-			if (_.solved) {
-				return;
-			}
-
-			yourcolor.style.background = "";
-
-			let guess, guessMeta = {}, isValid;
-			try {
-				guess = Color.parse(this.value, {meta: guessMeta});
-				guess = new Color(guess); // better to have a color object
-				isValid = true;
-			}
-			catch (e) {
-				isValid = false;
-			}
-
-			this.classList.toggle('invalid', !isValid);
-
-			if (isValid) {
-				hint.innerHTML = getHint({meta: guessMeta, color: guess});
-			}
-			else {
-				let functionName = this.value.match(/^\w+(?=\()/)?.[0];
-
-				if (functionName) {
-					hint.innerHTML = getHint({formatId: functionName});
-				}
-			}
-
-			if (!isValid) {
-				return;
-			}
-
-			yourcolor.style.background = guess.display();
-
-			attempts.push(guess);
-
-			if (t.minutes >= 3) {
-				slow.classList.add('show');
-			}
-
-			let deltaE = color.deltaE(guess, {method: "OK"});
-			let prox = 1 - deltaE;
-
-			proximity.textContent = `${Math.round(prox * 1000)/10}%`;
-			proximity.title = `DeltaE OK = ${deltaE}`;
-
-			attempt_count.textContent = attempts.length;
-			unique_attempt_count.textContent = getUniqueAttempts(attempts).length;
-
-			progression.innerHTML = attempts.map(c => `<div style="background: ${c.display()}"></div>`).join('');
-
-			if (prox > .99) {
-				// You won!
-				t.stop();
-				proximity.className = 'success';
-				slow.classList.remove('show');
-				success.classList.add('show');
-
-				_.historyPush(color, t, attempts);
-				_.solved = true;
-
-				return;
-			}
-
-			// Try harder!
-			proximity.style.setProperty('--proximity', prox);
-		}
-
-		return false;
-	},
-
-	historyPush: function(color, t, attempts) {
-		attempts = getUniqueAttempts(attempts)
-		let attemptGradient = `linear-gradient(to right, ${attempts.map((c, i) => `${ c } 0 ${ (i+1)/attempts.length * 100 }%`).join(', ')})`;
-		let css = `background-color: ${color}; background-image: ${attemptGradient}`;
-
-		if (color.get("oklch.lightness") <= .55) {
-			css += " color: white;"
-		}
-
-		document.querySelector("#successes > div").insertAdjacentHTML("beforeend",
-			`<article class="color" style="${css}">
-				<span class="time">${t}</span>
-				<span class="attempts">${attempts.length} attempts</span>
-			</article>`);
-
-		_.history.push({color: color, timer: t, attempts: attempts.slice()});
-		_.totalTime += t.ms100;
-		_.totalAttempts += attempts.length;
-
-		let total =  _.history.length;
-
-		this.avg ??= new Timer();
-		this.avg.ms100 = Math.round(_.totalTime/total);
-
-		this.total ??= new Timer();
-		this.total.ms100 = _.totalTime;
-
-		document.querySelector("#successes > header").innerHTML = `
-			<strong>${ total }</strong> color${ total > 1? 's' : '' },
-			<strong>${ this.avg }</strong> avg,
-			<strong>${ this.total }</strong> total`
-
-		tweet.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(_.tweet());
-	},
-
-	tweet: function () {
-		let count = _.history.length;
-
-		return `I guessed ${count} color${count > 1? 's' : ''} correctly in ${ this.total } on #whathecolor!
-Can you beat my average of ${ this.avg } per color?
-
-https://whathecolor.com by @LeaVerou`
-	},
-
-	history: [],
-
-	totalTime: 0,
-	totalAttempts: 0,
-};
-
-import("https://incrementable.verou.me/incrementable.js").then(module => new module.default(attempt));
-
-function getUniqueAttempts(attempts) {
+function getUniqueAttempts (attempts) {
 	return [...new Set(attempts.map(c => c.display() + ""))];
 }
 
-$$('.message a').forEach(a => a.onclick = Whathecolor.play);
+globalThis.app = createApp({
+	data () {
+		return {
+			solved: false,
+			guessInput: "",
+			invalid: false,
+			attempts: [],
+			proximity: 0,
+			proximityText: "0%",
+			proximityTitle: "",
+			hint: "",
+			solutionCss: "",
+			yourcolorCss: "",
+			timerText: "00:00.0",
+			showSlow: false,
+			history: [],
+			totalTime: 0,
 
-Whathecolor.play();
+			// Non-reactive holders, (re)assigned in play()
+			solution: null,
+			timer: null,
+			timerStarted: false,
+		};
+	},
+
+	computed: {
+		uniqueCount () {
+			return getUniqueAttempts(this.attempts).length;
+		},
+
+		avgTime () {
+			let t = new Timer();
+			t.ms100 = this.history.length ? Math.round(this.totalTime / this.history.length) : 0;
+			return t.toString();
+		},
+
+		totalTimeStr () {
+			let t = new Timer();
+			t.ms100 = this.totalTime;
+			return t.toString();
+		},
+
+		tweetHref () {
+			let count = this.history.length;
+
+			if (!count) {
+				return "https://twitter.com/intent/tweet?text=";
+			}
+
+			let text = `I guessed ${ count } color${ count > 1 ? "s" : "" } correctly in ${ this.totalTimeStr } on #whathecolor!
+Can you beat my average of ${ this.avgTime } per color?
+
+https://whathecolor.com by @LeaVerou`;
+
+			return "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
+		},
+	},
+
+	methods: {
+		play () {
+			this.solved = false;
+			this.hint = "";
+			this.showSlow = false;
+			this.attempts = [];
+			this.proximity = 0;
+			this.proximityText = "0%";
+			this.proximityTitle = "";
+			this.invalid = false;
+			this.guessInput = "";
+			this.yourcolorCss = "";
+
+			let color = new Color("srgb", [
+				Math.random(),
+				Math.random(),
+				Math.random()
+			]);
+
+			this.solution = markRaw(color);
+			this.solutionCss = color.toString();
+
+			this.timer?.stop();
+			this.timer = markRaw(new Timer(text => { this.timerText = text; }));
+			this.timerText = "00:00.0";
+			this.timerStarted = false;
+
+			this.$nextTick(() => this.$refs.attempt?.focus());
+		},
+
+		onInput (e) {
+			this.guessInput = e.target.value;
+
+			if (this.solved) {
+				return;
+			}
+
+			// Start the timer on the first input
+			if (!this.timerStarted) {
+				this.timer.start();
+				this.timerStarted = true;
+			}
+
+			this.yourcolorCss = "";
+
+			let guess, guessMeta = {}, isValid;
+			try {
+				guess = Color.parse(this.guessInput, {meta: guessMeta});
+				guess = new Color(guess); // better to have a color object
+				isValid = true;
+			}
+			catch (err) {
+				isValid = false;
+			}
+
+			this.invalid = !isValid;
+
+			if (isValid) {
+				this.hint = getHint({meta: guessMeta, color: guess});
+			}
+			else {
+				let functionName = this.guessInput.match(/^\w+(?=\()/)?.[0];
+
+				if (functionName) {
+					this.hint = getHint({formatId: functionName});
+				}
+
+				return;
+			}
+
+			guess = markRaw(guess);
+			this.yourcolorCss = guess.display();
+
+			this.attempts.push(guess);
+
+			if (this.timer.minutes >= 3) {
+				this.showSlow = true;
+			}
+
+			let deltaE = this.solution.deltaE(guess, {method: "OK"});
+			let prox = 1 - deltaE;
+
+			this.proximity = prox;
+			this.proximityText = `${ Math.round(prox * 1000) / 10 }%`;
+			this.proximityTitle = `DeltaE OK = ${ deltaE }`;
+
+			if (prox > .99) {
+				// You won!
+				this.timer.stop();
+				this.solved = true;
+				this.showSlow = false;
+				this.historyPush();
+			}
+		},
+
+		historyPush () {
+			let solution = this.solution;
+			let timer = this.timer;
+			let attempts = getUniqueAttempts(this.attempts);
+
+			let attemptGradient = `linear-gradient(to right, ${ attempts.map((c, i) => `${ c } 0 ${ (i + 1) / attempts.length * 100 }%`).join(", ") })`;
+			let css = `background-color: ${ solution }; background-image: ${ attemptGradient };`;
+
+			if (solution.get("oklch.lightness") <= .55) {
+				css += " color: white;";
+			}
+
+			this.totalTime += timer.ms100;
+
+			this.history.push({
+				css,
+				time: timer.toString(),
+				attempts: attempts.length,
+			});
+		},
+	},
+
+	mounted () {
+		this.play();
+
+		import("https://incrementable.verou.me/incrementable.js").then(module => new module.default(this.$refs.attempt));
+	},
+}).mount("#app");

@@ -1,10 +1,6 @@
 export default class Timer {
-	constructor (element) {
-		if (element) {
-			this.timer = element;
-			this.timer.textContent = '00:00.0';
-		}
-
+	constructor (onTick) {
+		this.onTick = onTick;
 		this.ms100 = 0;
 	}
 
@@ -19,10 +15,7 @@ export default class Timer {
 	start () {
 		this.interval = setInterval(() => {
 			this.ms100 += 1;
-
-			requestAnimationFrame(() => {
-				this.timer.textContent = this.toString();
-			});
+			this.onTick?.(this.toString());
 		}, 100);
 	}
 

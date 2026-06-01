@@ -2,11 +2,14 @@
   "name": "whathecolor",
   "version": "2.0.0-alpha.1",
   "description": "A color guessing game for CSS developers",
-  "main": "whathecolor.js",
+  "type": "module",
+  "main": "js/whathecolor.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dependencies": "npx nudeps",
+    "prepare": "npx nudeps",
     "build:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs",
-    "build": "npm run build:css",
+    "build": "npx nudeps && npm run build:css",
     "watch:css": "npx postcss \"**/*.postcss\" --base . --dir . --ext .css --config postcss.config.cjs --watch",
     "watch": "npm run watch:css"
   },
@@ -20,7 +23,12 @@
   ],
   "author": "Lea Verou",
   "license": "MIT",
+  "dependencies": {
+    "colorjs.io": "^0.5.2",
+    "vue": "^3.5.26"
+  },
   "devDependencies": {
+    "nudeps": "latest",
     "postcss": "^8.4.23",
     "postcss-cli": "^10.1.0",
     "postcss-nesting": "^11.2.2"
