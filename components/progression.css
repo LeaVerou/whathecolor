@@ -1,0 +1,36 @@
+.attempt-container {
+	position: relative;
+
+	& .attempts {
+		position: absolute;
+		top: -.8em;
+		left: 50%;
+		z-index: 1;
+		transform: translateX(-50%);
+	}
+}
+
+.attempts {
+	padding: .2em .8em;
+	border-radius: .2em;
+	background: black;
+	color: white;
+	font-size: 80%;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.progression {
+	position: relative;
+	display: flex;
+	height: 2.5em;
+	border: 1px solid hsl(220 10% 80%);
+	border-bottom: none;
+	border-radius: .3rem .3rem 0 0;
+	overflow: hidden;
+	background: var(--transparency);
+
+	& > div {
+		flex: 1;
+	}
+}

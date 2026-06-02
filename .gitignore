@@ -1,2 +1,2 @@
-# Ignore generated files
-style.css
+node_modules
+importmap.js

@@ -1,0 +1,88 @@
+.colors {
+	position: relative;
+	display: flex;
+	margin-bottom: 1rem;
+	border: 10px solid white;
+	border-radius: 3px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+
+	& .color {
+		flex: 1;
+		position: relative;
+		width: 200px;
+		height: 200px;
+		background: var(--transparency);
+
+		&::before {
+			content: attr(title);
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			padding: .5em .8em .6em;
+			background: rgba(0, 0, 0, .5);
+			color: white;
+			text-shadow: 0 0 2px black;
+			font-size: smaller;
+			font-weight: bold;
+		}
+	}
+}
+
+@keyframes proximity {
+	from {
+		background: hsl(0 100% 30%);
+	}
+
+	10% {
+		background: hsl(0 100% 50%);
+	}
+
+	50% {
+		background: hsl(30 100% 50%);
+	}
+
+	70% {
+		background: hsl(50 100% 45%);
+	}
+
+	90%, to {
+		background: hsl(70 100% 40%);
+	}
+}
+
+.proximity {
+	position: absolute;
+	top: -1.2rem;
+	right: -2.3rem;
+	margin-left: 160px;
+	width: 4em;
+	height: 4em;
+	padding: 1.1em .5em;
+	box-sizing: border-box;
+	border-radius: 50%;
+	background: black;
+	text-align: center;
+	color: white;
+	font-size: 160%;
+	line-height: 1;
+	font-weight: bold;
+	letter-spacing: -1px;
+	animation: proximity 100s calc(var(--proximity) * -100s) linear paused;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, .5), 0 0 0 4px rgba(0, 0, 0, .1) inset;
+
+	&.success {
+		background: hsl(90, 80%, 35%);
+		animation: none;
+	}
+
+	&::before {
+		content: attr(data-label);
+		display: block;
+		margin-bottom: .4em;
+		font-size: 50%;
+		line-height: 1;
+		font-weight: normal;
+		letter-spacing: 0;
+	}
+}

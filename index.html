@@ -5,11 +5,13 @@
 <meta charset="utf-8" />
 <title>What the color? - A color game for web developers!</title>
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎨</text></svg>'>
-<meta name="viewport" content="width=device-width; initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="style.css" />
+<script src="importmap.js"></script>
+<script type="module" src="index.js"></script>
 
 </head>
-<body>
+<body v-cloak>
 
 <h1>
 	What the <span>color?</span>
@@ -17,67 +19,47 @@
 
 <main>
 
-<p id="timer">00:00.0</p>
+	<p class="timer">{{ timer }}</p>
 
-<div id="colors">
-	<div id="solution" class="color" title="Color to guess"></div>
-	<div id="yourcolor" class="color" title="Your guess"></div>
-	<output id="proximity" data-label="Proximity">0%</output>
-</div>
+	<color-board
+		:target="solution"
+		:guess="guessColor"
+		:proximity="proximity"
+		:delta-e="deltaE"
+		:solved="solved"></color-board>
 
-<div id="attempt_container">
-	<span class="attempts"><span id="attempt_count">0</span> attempts, <span id="unique_attempt_count">0</span> unique</span>
-	<div id="progression"></div>
-	<input id="attempt" placeholder="rgb(), hsl() etc" autofocus />
-	<code id="hint" class="popup"></code>
-</div>
+	<div class="controls">
+		<progression
+			:displays="displays"
+			:attempt-count="round.attemptCount"
+			:unique-count="round.uniqueCount"></progression>
+		<guess-input ref="input" :disabled="solved" @guess="onGuess"></guess-input>
+	</div>
 
-<p id="success" class="message">
-	Yay! You got it!
-	<a href="#">Next</a>
-</p>
+	<p class="message success" :class="{ show: solved }" role="status" aria-live="polite">
+		Yay! You got it!
+		<a href="#" @click.prevent="newRound">Next</a>
+	</p>
 
-<p id="slow" class="message">
-	Looks like this color is taking you a bit long. Wanna skip it?
-	<a href="#">Skip</a>
-</p>
+	<p class="message slow" :class="{ show: showSlow }" role="status" aria-live="polite">
+		Looks like this color is taking you a bit long. Wanna skip it?
+		<a href="#" @click.prevent="skip">Skip</a>
+	</p>
 
-<ul class="help">
-	<li>Any CSS color is valid, whether supported by your browser or not.
-		This includes named colors, #hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> etc.</li>
-	<li><kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 1, <kbd>Shift</kbd> + <kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 10.</li>
-</ul>
+	<ul class="help">
+		<li>Any CSS color is valid, whether supported by your browser or not.
+			This includes named colors, #hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> etc.</li>
+		<li><kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 1, <kbd>Shift</kbd> + <kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 10.</li>
+	</ul>
 
 </main>
 
-<aside id="successes">
-	<header>
-		0 colors, 00:00.0 avg, 00:00.0 total
-	</header>
-	<div>
-
-	</div>
-	<a href="https://twitter.com/intent/tweet?text=" target="_blank" id="tweet">Tweet score</a>
-</aside>
+<history-panel :history="history"></history-panel>
 
 <footer>
 	Made with ❤️ by <a href="http://lea.verou.me">Lea Verou</a> using <a href="https://colorjs.io">Color.js</a>
 	&bull; <a href="https://github.com/LeaVerou/whathecolor" target="_blank">Github</a>
 </footer>
-
-<script src="js/whathecolor.js" type="module"></script>
-
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-25106441-4', 'verou.me');
-  ga('send', 'pageview');
-
-</script>
 
 </body>
 </html>

@@ -1,0 +1,197 @@
+@import url("./components/color-board.css");
+@import url("./components/progression.css");
+@import url("./components/guess-input.css");
+@import url("./components/history-panel.css");
+
+:root {
+	--transparency: repeating-conic-gradient(silver 0 25%, transparent 0 50%) #eee 0 0 / 20px 20px round;
+	--font-ui: sans-serif;
+	--font-monospace: Consolas, Monaco, monospace;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+[v-cloak] {
+	visibility: hidden;
+}
+
+body {
+	display: grid;
+	grid-template-columns: auto 1fr 18em;
+	grid-template-rows: 1fr auto;
+	grid-template-areas: "h m s"
+	                     "h f s";
+	text-align: center;
+	font: 100%/1.5 var(--font-ui);
+	margin: 0;
+
+	@media (width < 1000px) {
+		grid-template-areas: "h h s"
+		                     "m m s"
+		                     "f f s";
+	}
+
+	@media (width < 750px) {
+		display: flex;
+		flex-flow: column;
+		font-size: 80%;
+	}
+}
+
+main {
+	position: relative;
+	grid-area: m;
+	display: flex;
+	flex-flow: column;
+	width: min(55em, 80%);
+	max-width: 80%;
+	margin: 0 auto;
+	padding: 1rem;
+}
+
+a {
+	color: inherit;
+}
+
+code {
+	font-family: var(--font-monospace);
+}
+
+kbd {
+	display: inline-block;
+	padding: .1em .4em;
+	min-width: 1em;
+	border: 1px solid hsl(220 10% 90%);
+	border-radius: .2em;
+	margin: 0 .1em;
+	background: hsl(220 10% 97%);
+	text-align: center;
+	line-height: 1;
+	font: inherit;
+}
+
+h1 {
+	grid-area: h;
+	padding: 1rem;
+	font-size: 500%;
+	line-height: 1;
+	letter-spacing: -1px;
+	--gradient-direction: to right;
+
+	@media (width < 750px) {
+		font-size: 350%;
+	}
+
+	@media (width >= 1000px) {
+		writing-mode: vertical-lr;
+		margin-right: -.2em;
+		transform: rotate(180deg);
+		text-align: right;
+		--gradient-direction: ;
+	}
+
+	& > span {
+		color: white;
+		text-shadow: 1px 0 black, -1px 0 black, 0 0 2px black;
+
+		@supports (color: oklch(0% 0 0)) and (-webkit-background-clip: text) {
+			--hc: 70% .2;
+			/* Why so many stops? Because in oklch longer seems borked */
+			background: linear-gradient(var(--gradient-direction, ) in oklch,
+				oklch(var(--hc) 0), oklch(var(--hc) 60),
+				oklch(var(--hc) 120), oklch(var(--hc) 180),
+				oklch(var(--hc) 240), oklch(var(--hc) 300),
+				oklch(var(--hc) 360)
+			);
+			-webkit-background-clip: text;
+			color: transparent;
+			text-shadow: none;
+			-webkit-text-stroke: 1px black;
+		}
+	}
+
+	& + p {
+		padding: 1em 0;
+	}
+}
+
+.timer {
+	margin-bottom: .5em;
+	font-size: 250%;
+}
+
+.controls {
+	position: relative;
+	margin-top: 1em;
+	margin-bottom: 1.5em;
+}
+
+.help {
+	font-size: smaller;
+	color: hsl(220 10% 50%);
+	text-align: left;
+}
+
+.message {
+	display: none;
+	width: 24em;
+	padding: .5em .8em;
+	margin: 1em auto;
+	border-radius: .15em;
+
+	&.show {
+		display: block;
+	}
+
+	& a {
+		display: inline-block;
+		padding: .2em .5em;
+		border: 1px solid rgba(0, 0, 0, .2);
+		border-radius: .3em;
+		background: linear-gradient(hsla(0, 0%, 100%, .3), hsla(0, 0%, 100%, 0));
+		box-shadow: 0 1px hsla(0, 0%, 100%, .6) inset;
+		color: white;
+		text-decoration: none;
+		text-transform: uppercase;
+		font-size: 80%;
+
+		&:active {
+			background-image: none;
+			box-shadow: 0 1px 5px rgba(0, 0, 0, .6) inset;
+		}
+	}
+
+	&.success {
+		border: 1px solid hsl(80, 100%, 45%);
+		background: hsl(80, 100%, 90%);
+		color: hsl(80, 100%, 20%);
+
+		& a {
+			background-color: hsl(80, 100%, 30%);
+		}
+	}
+
+	&.slow {
+		border: 1px solid hsl(0, 100%, 70%);
+		background: hsl(0, 100%, 90%);
+		color: hsl(0, 100%, 20%);
+
+		& a {
+			background-color: hsl(0, 100%, 30%);
+		}
+	}
+}
+
+footer {
+	grid-area: f;
+	margin-top: 1em;
+	padding: 1rem;
+}

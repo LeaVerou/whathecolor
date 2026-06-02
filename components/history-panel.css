@@ -1,0 +1,57 @@
+.successes {
+	grid-area: s;
+	display: flex;
+	flex-flow: column;
+	gap: 1px;
+	background: hsl(220 10% 95%);
+
+	@media (width >= 750px) {
+		overflow: auto;
+	}
+
+	& header {
+		padding: .5em;
+		background: hsl(0 0% 0% / .1);
+		text-transform: uppercase;
+		font-size: 80%;
+		font-weight: bold;
+	}
+
+	& .history {
+		display: flex;
+		flex-flow: column;
+		gap: 1px;
+	}
+
+	& .color {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: .2em .8em;
+		background: no-repeat bottom / 100% .5em;
+
+		& .time {
+			font-size: 200%;
+			font-weight: 100;
+		}
+	}
+
+	& .share {
+		margin: 1em;
+		padding: .2em .5em;
+		border: 1px solid rgba(0, 0, 0, .2);
+		border-radius: .3em;
+		background: #112 linear-gradient(hsla(0, 0%, 100%, .3), hsla(0, 0%, 100%, 0));
+		box-shadow: 0 1px hsla(0, 0%, 100%, .6) inset;
+		color: white;
+		font-weight: bold;
+		font-size: 120%;
+		letter-spacing: -1px;
+		text-shadow: 0 -1px 2px black;
+
+		&:active {
+			background-image: none;
+			box-shadow: 0 1px 5px rgba(0, 0, 0, .6) inset;
+		}
+	}
+}
