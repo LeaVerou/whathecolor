@@ -54,11 +54,10 @@
 		<a href="#" @click.prevent="skip">Skip</a>
 	</p>
 
-	<ul class="help">
-		<li v-if="mode === 'visual'">Drag the sliders to match the color. Switch to <strong>Code</strong> to type a CSS color instead.</li>
-		<li v-if="mode === 'code'">Any CSS color is valid, whether supported by your browser or not.
+	<ul class="help" v-if="mode === 'code'">
+		<li>Any CSS color is valid, whether supported by your browser or not.
 			This includes named colors, #hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> etc.</li>
-		<li v-if="mode === 'code'"><kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 1, <kbd>Shift</kbd> + <kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 10.</li>
+		<li><kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 1, <kbd>Shift</kbd> + <kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 10.</li>
 	</ul>
 
 </main>
