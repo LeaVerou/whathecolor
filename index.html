@@ -32,8 +32,12 @@
 		<progression :displays="displays"></progression>
 
 		<div class="mode-toggle" role="group" aria-label="Guessing mode">
-			<button type="button" :class="{ active: mode === 'visual' }" :aria-pressed="mode === 'visual'" @click="mode = 'visual'">Visual</button>
-			<button type="button" :class="{ active: mode === 'code' }" :aria-pressed="mode === 'code'" @click="mode = 'code'">Code</button>
+			<button type="button" class="icon-before" style="--icon: var(--icon-sliders)"
+				:class="{ active: mode === 'visual' }" :aria-pressed="mode === 'visual'" :disabled="started"
+				@click="mode = 'visual'">Visual</button>
+			<button type="button" class="icon-before" style="--icon: var(--icon-braces)"
+				:class="{ active: mode === 'code' }" :aria-pressed="mode === 'code'" :disabled="started"
+				@click="mode = 'code'">Code</button>
 		</div>
 
 		<color-visual v-show="mode === 'visual'" ref="visualGuesser" :disabled="solved" @guess="onGuess"></color-visual>
