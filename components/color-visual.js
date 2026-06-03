@@ -51,9 +51,9 @@ export default {
 			}
 		},
 
-		/** Reset to a neutral color for a new round */
+		/** Reset for a new round to the picker's default — the midpoint of every slider, not gray */
 		reset () {
-			this.setValue("oklch(70% 0 0)");
+			this.setValue(this.picker.defaultColor);
 		},
 	},
 };
