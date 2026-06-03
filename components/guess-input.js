@@ -12,9 +12,12 @@ const template = /* html */`
 `;
 
 /**
- * The color guess field. Owns parsing of the typed value (validity + syntax hint) and
- * emits each keystroke's result up to the app, which decides what to do with it.
- * Enhanced with incrementable.js so ↑/↓ tweak the number under the caret.
+ * Code guessing mode: the color text field. Owns parsing of the typed value (validity +
+ * syntax hint) and emits each keystroke up to the app as a guess. Enhanced with
+ * incrementable.js so ↑/↓ tweak the number under the caret.
+ *
+ * Shares an interface with color-visual.js (setValue / reset / focus / @guess) so the app can
+ * treat both modes the same.
  */
 export default {
 	template,
@@ -32,8 +35,6 @@ export default {
 	},
 
 	mounted () {
-		this.$refs.input.focus();
-
 		// Arrow-key increment/decrement of CSS values. External, optional enhancement.
 		import("https://incrementable.verou.me/incrementable.js")
 			.then(module => new module.default(this.$refs.input))
@@ -41,9 +42,8 @@ export default {
 	},
 
 	methods: {
-		onInput (event) {
-			this.value = event.target.value;
-
+		/** Update validity + syntax hint from the current value. Does not emit. */
+		parse () {
 			let meta = {};
 			let color;
 			let valid;
@@ -67,7 +67,23 @@ export default {
 				this.hint = functionName ? getHint({ formatId: functionName }) : "";
 			}
 
+			return valid;
+		},
+
+		onInput (event) {
+			this.value = event.target.value;
+			let valid = this.parse();
 			this.$emit("guess", { value: this.value, valid });
+		},
+
+		/** Set the field value without emitting (e.g. carrying a guess over from visual mode) */
+		setValue (css) {
+			this.value = css;
+			this.parse();
+		},
+
+		focus () {
+			this.$refs.input.focus();
 		},
 
 		/** Clear the field for a new round */
@@ -75,7 +91,6 @@ export default {
 			this.value = "";
 			this.valid = true;
 			this.hint = "";
-			this.$refs.input.focus();
 		},
 	},
 };

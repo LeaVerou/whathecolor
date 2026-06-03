@@ -5,6 +5,7 @@ import Timer from "./lib/timer.js";
 import local from "./lib/local.js";
 import ColorBoard from "./components/color-board.js";
 import GuessInput from "./components/guess-input.js";
+import ColorVisual from "./components/color-visual.js";
 import Progression from "./components/progression.js";
 import HistoryPanel from "./components/history-panel.js";
 
@@ -16,17 +17,18 @@ const SLOW_MINUTES = 3;
 
 const app = createApp({
 	mixins: [
-		local({ paths: ["history"], prefix: "whathecolor/" }),
+		local({ paths: ["history", "mode"], prefix: "whathecolor/" }),
 	],
 
 	data () {
 		return {
 			solution: "",       // CSS string of the color to guess
-			attempts: [],       // Valid guesses, in order
-			guessValid: true,   // Whether the field currently holds a valid color
+			attempts: [],       // Guesses, in order
+			guessValid: true,   // Whether the latest guess is a valid color
 			elapsed: 0,         // Time on the clock, in tenths of a second
 			started: false,     // Whether the clock is running
 			solved: false,      // Whether the current round is won
+			mode: "visual",     // "visual" (color picker) or "code" (text input)
 			history: [],        // Solved colors (persisted)
 		};
 	},
@@ -40,6 +42,11 @@ const app = createApp({
 		/** Your-color swatch: the latest guess while valid, else empty (checkerboard) */
 		guessColor () {
 			return this.guessValid ? this.round.lastDisplay : "";
+		},
+
+		/** The latest guess as typed/picked, to carry across a mode switch */
+		lastGuess () {
+			return this.attempts.at(-1) ?? "";
 		},
 
 		proximity () {
@@ -65,11 +72,22 @@ const app = createApp({
 	},
 
 	watch: {
-		// Detect the moment the latest guess becomes close enough to win
+		// Detect the moment the live guess becomes close enough to win
 		"round.solved" (isSolved) {
 			if (isSolved && !this.solved) {
 				this.win();
 			}
+		},
+
+		// Both inputs stay mounted (v-show); on switch, carry the latest guess into the now-active one
+		mode () {
+			this.$nextTick(() => {
+				let active = this.mode === "visual" ? this.$refs.visualGuesser : this.$refs.codeGuesser;
+				if (this.lastGuess) {
+					active?.setValue(this.lastGuess);
+				}
+				active?.focus?.();
+			});
 		},
 	},
 
@@ -88,7 +106,8 @@ const app = createApp({
 			this.started = false;
 			this.solved = false;
 			this.guessValid = true;
-			this.$refs.input?.reset();
+			this.$refs.visualGuesser?.reset();
+			this.$refs.codeGuesser?.reset();
 		},
 
 		/** Skip the current (unsolved) color */
@@ -110,7 +129,11 @@ const app = createApp({
 			this.interval = null;
 		},
 
-		/** Handle a keystroke result from the guess field */
+		/**
+		 * Handle a guess from whichever input is active (a keystroke in code mode, a slider
+		 * step in visual mode). Every distinct valid guess is recorded, so the progression and
+		 * counters reflect the whole path; the latest one drives proximity, the swatch, and the win.
+		 */
 		onGuess ({ value, valid }) {
 			this.startClock();
 
@@ -120,7 +143,8 @@ const app = createApp({
 
 			this.guessValid = valid;
 
-			if (valid && value !== "") {
+			// Skip consecutive duplicates (e.g. a no-op keystroke or a slider that didn't move)
+			if (valid && value !== "" && value !== this.attempts.at(-1)) {
 				this.attempts.push(value);
 			}
 		},
@@ -139,9 +163,13 @@ const app = createApp({
 	components: {
 		"color-board": ColorBoard,
 		"guess-input": GuessInput,
+		"color-visual": ColorVisual,
 		"progression": Progression,
 		"history-panel": HistoryPanel,
 	},
 });
+
+// <color-picker> (from color-elements) is a real custom element, not a Vue component
+app.config.compilerOptions.isCustomElement = tag => tag === "color-picker";
 
 globalThis.app = app.mount(document.body);

@@ -7,7 +7,6 @@ const template = /* html */`
 	<div class="history">
 		<article class="color" v-for="(entry, i) in history" :key="i" :style="entryStyle(entry)">
 			<span class="time">{{ time(entry) }}</span>
-			<span class="attempts">{{ entry.attempts.length }} attempts</span>
 		</article>
 	</div>
 	<button class="share" v-if="count" @click="share">Share score</button>

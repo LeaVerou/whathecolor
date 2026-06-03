@@ -1,6 +1,7 @@
 @import url("./components/color-board.css");
 @import url("./components/progression.css");
 @import url("./components/guess-input.css");
+@import url("./components/color-visual.css");
 @import url("./components/history-panel.css");
 
 :root {
@@ -132,6 +133,35 @@ h1 {
 	position: relative;
 	margin-top: 1em;
 	margin-bottom: 1.5em;
+}
+
+.mode-toggle {
+	display: flex;
+	width: max-content;
+	margin: .8em auto;
+	border: 1px solid hsl(220 10% 80%);
+	border-radius: .4em;
+	overflow: hidden;
+	background: hsl(220 10% 98%);
+	font-size: 90%;
+
+	& button {
+		appearance: none;
+		border: none;
+		background: none;
+		padding: .35em 1.2em;
+		color: hsl(220 10% 40%);
+		cursor: pointer;
+
+		&:not(:first-child) {
+			border-left: 1px solid hsl(220 10% 85%);
+		}
+
+		&.active {
+			background: hsl(220 10% 30%);
+			color: white;
+		}
+	}
 }
 
 .help {

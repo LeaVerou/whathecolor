@@ -29,11 +29,15 @@
 		:solved="solved"></color-board>
 
 	<div class="controls">
-		<progression
-			:displays="displays"
-			:attempt-count="round.attemptCount"
-			:unique-count="round.uniqueCount"></progression>
-		<guess-input ref="input" :disabled="solved" @guess="onGuess"></guess-input>
+		<progression :displays="displays"></progression>
+
+		<div class="mode-toggle" role="group" aria-label="Guessing mode">
+			<button type="button" :class="{ active: mode === 'visual' }" :aria-pressed="mode === 'visual'" @click="mode = 'visual'">Visual</button>
+			<button type="button" :class="{ active: mode === 'code' }" :aria-pressed="mode === 'code'" @click="mode = 'code'">Code</button>
+		</div>
+
+		<color-visual v-show="mode === 'visual'" ref="visualGuesser" :disabled="solved" @guess="onGuess"></color-visual>
+		<guess-input v-show="mode === 'code'" ref="codeGuesser" :disabled="solved" @guess="onGuess"></guess-input>
 	</div>
 
 	<p class="message success" :class="{ show: solved }" role="status" aria-live="polite">
@@ -47,9 +51,10 @@
 	</p>
 
 	<ul class="help">
-		<li>Any CSS color is valid, whether supported by your browser or not.
+		<li v-if="mode === 'visual'">Drag the sliders to match the color. Switch to <strong>Code</strong> to type a CSS color instead.</li>
+		<li v-if="mode === 'code'">Any CSS color is valid, whether supported by your browser or not.
 			This includes named colors, #hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> etc.</li>
-		<li><kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 1, <kbd>Shift</kbd> + <kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 10.</li>
+		<li v-if="mode === 'code'"><kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 1, <kbd>Shift</kbd> + <kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 10.</li>
 	</ul>
 
 </main>
