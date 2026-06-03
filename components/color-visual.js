@@ -1,9 +1,7 @@
 import "color-elements/color-picker";
 
 const template = /* html */`
-<div class="color-visual">
-	<color-picker ref="picker" space="oklch" :inert="disabled"></color-picker>
-</div>
+<color-picker ref="picker" space="oklch" :inert="disabled"></color-picker>
 `;
 
 /**
