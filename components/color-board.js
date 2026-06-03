@@ -1,9 +1,13 @@
 const template = /* html */`
-<div class="colors">
-	<div class="color solution" title="Color to guess" :style="{ background: target }"></div>
-	<div class="color your-color" title="Your guess" :style="{ background: guess }"></div>
-	<output class="proximity" :class="{ success: solved }" data-label="Proximity"
-		:style="{ '--proximity': proximity }" :title="deltaTitle">{{ percent }}</output>
+<div class="color-board">
+	<div class="colors">
+		<div class="color solution" title="Color to guess" :style="{ background: target }"></div>
+		<div class="color your-color" title="Your guess" :style="{ background: guess }"></div>
+	</div>
+	<label class="proximity" :class="{ success: solved }" :style="{ '--proximity': proximity }" :title="deltaTitle">
+		<span class="caption">Proximity <strong class="percent">{{ percent }}</strong></span>
+		<progress :value="proximity" max="1"></progress>
+	</label>
 </div>
 `;
 
@@ -27,7 +31,7 @@ export default {
 
 	computed: {
 		percent () {
-			return Math.round(this.proximity * 1000) / 10 + "%";
+			return Math.round(this.proximity * 100) + "%";
 		},
 
 		deltaTitle () {
