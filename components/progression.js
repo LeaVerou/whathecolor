@@ -1,4 +1,5 @@
 const template = /* html */`
+Attempts:
 <div class="progression">
 	<div v-for="(color, i) in displays" :key="i" :style="{ background: color }"></div>
 </div>

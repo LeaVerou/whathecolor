@@ -52,7 +52,11 @@ const app = createApp({
 		},
 
 		percent () {
-			return Math.round(this.proximity * 100) + "%";
+			let proximity = this.proximity;
+			return proximity.toLocaleString(undefined, {
+				style: "percent",
+				maximumFractionDigits: proximity > 0.984 ? 1 : 0
+			});
 		},
 
 		deltaE () {
