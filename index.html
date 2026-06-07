@@ -29,7 +29,6 @@
 		:solved="solved"></color-board>
 
 	<div class="controls">
-		<progression :displays="displays"></progression>
 
 		<div class="mode-toggle" role="group" aria-label="Guessing mode">
 			<button type="button" class="icon-before" style="--icon: var(--icon-sliders)"
@@ -42,6 +41,8 @@
 
 		<color-visual v-show="mode === 'visual'" ref="visualGuesser" :disabled="solved" @guess="onGuess"></color-visual>
 		<guess-input v-show="mode === 'code'" ref="codeGuesser" :disabled="solved" @guess="onGuess"></guess-input>
+
+		<progression :displays="displays"></progression>
 	</div>
 
 	<p class="message success" :class="{ show: solved }" role="status" aria-live="polite">

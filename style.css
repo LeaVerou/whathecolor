@@ -2,7 +2,6 @@
 @import url("./components/color-board.css");
 @import url("./components/progression.css");
 @import url("./components/guess-input.css");
-@import url("./components/color-visual.css");
 @import url("./components/history-panel.css");
 
 :root {
@@ -131,6 +130,9 @@ h1 {
 }
 
 .controls {
+	display: flex;
+	flex-flow: column;
+	gap: 1em;
 	position: relative;
 	margin-top: 1em;
 	margin-bottom: 1.5em;
