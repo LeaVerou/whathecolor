@@ -4,7 +4,6 @@ import "color-elements/color-picker";
 import Round from "./lib/round.js";
 import Timer from "./lib/timer.js";
 import local from "./lib/local.js";
-import Progression from "./components/progression.js";
 import HistoryPanel from "./components/history-panel.js";
 
 // Handy for poking around in the console
@@ -163,7 +162,6 @@ const app = createApp({
 	},
 
 	components: {
-		"progression": Progression,
 		"history-panel": HistoryPanel,
 	},
 });

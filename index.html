@@ -33,7 +33,11 @@
 
 	<div class="controls">
 		<color-picker ref="picker" :space="space" :inert="solved" @input="onPick"></color-picker>
-		<progression :displays="displays"></progression>
+
+		Attempts:
+		<div class="progression">
+			<div v-for="(color, i) in displays" :key="i" :style="{ background: color }"></div>
+		</div>
 	</div>
 
 	<p class="message success" :class="{ show: solved }" role="status" aria-live="polite">

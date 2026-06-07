@@ -24,16 +24,17 @@ lib/                Framework-agnostic model layer
   timer.js          Timer: an elapsed-time value object (formats mm:ss.d)
   local.js          Vue mixin: persist data paths to localStorage
 
-components/          Vue components (each with a sibling .css)
-  progression.js    Strip of the colors guessed, in order
-  history-panel.js  Score panel: per-color cards, aggregate stats, share
-  color-board.css   Styles for the swatches + proximity bar (markup is inline in index.html)
+components/          The score panel is the one real component; the rest are just CSS for
+  history-panel.js  inline markup in index.html (purely-presentational bits aren't components)
+  history-panel.css
+  color-board.css   Swatches + proximity bar
+  progression.css   The guess-progression strip
 ```
 
-The board (target + your-guess swatches and the proximity bar) and the guess input are written
-directly in `index.html` rather than as components — they’re purely presentational. The picker is
-color-elements’ `<color-picker>`, registered in `index.js` via a side-effect import and
-`compilerOptions.isCustomElement`.
+The board (target + your-guess swatches and the proximity bar), the guess-progression strip, and
+the guess input are written directly in `index.html` rather than as components — they’re purely
+presentational. The picker is color-elements’ `<color-picker>`, registered in `index.js` via a
+side-effect import and `compilerOptions.isCustomElement`.
 
 ### Guessing
 
