@@ -7,8 +7,6 @@ const template = /* html */`
 	<div class="history">
 		<article class="color" v-for="(entry, i) in history" :key="i" :style="entryStyle(entry)">
 			<span class="time">{{ time(entry) }}</span>
-			<span class="icon mode-icon" :style="{ '--icon': modeIcon(entry.mode) }"
-				:title="entry.mode === 'code' ? 'Guessed in code' : 'Guessed visually'"></span>
 		</article>
 	</div>
 	<button class="share" v-if="count" @click="share">Share score</button>
@@ -61,11 +59,6 @@ Can you beat my average of ${this.avg} per color?`;
 	methods: {
 		time (entry) {
 			return new Timer(entry.ms100).toString();
-		},
-
-		/** Which guessing mode this color was solved in */
-		modeIcon (mode) {
-			return mode === "code" ? "var(--icon-braces)" : "var(--icon-sliders)";
 		},
 
 		/** Per-card style: solid target color, overlaid with a gradient of the distinct guesses */

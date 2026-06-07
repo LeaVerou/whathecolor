@@ -29,19 +29,7 @@
 		:solved="solved"></color-board>
 
 	<div class="controls">
-
-		<div class="mode-toggle" role="group" aria-label="Guessing mode">
-			<button type="button" class="icon-before" style="--icon: var(--icon-sliders)"
-				:class="{ active: mode === 'visual' }" :aria-pressed="mode === 'visual'" :disabled="started"
-				@click="mode = 'visual'">Visual</button>
-			<button type="button" class="icon-before" style="--icon: var(--icon-braces)"
-				:class="{ active: mode === 'code' }" :aria-pressed="mode === 'code'" :disabled="started"
-				@click="mode = 'code'">Code</button>
-		</div>
-
-		<color-visual v-show="mode === 'visual'" ref="visualGuesser" :disabled="solved" @guess="onGuess"></color-visual>
-		<guess-input v-show="mode === 'code'" ref="codeGuesser" :disabled="solved" @guess="onGuess"></guess-input>
-
+		<color-visual ref="guesser" :disabled="solved" @guess="onGuess"></color-visual>
 		<progression :displays="displays"></progression>
 	</div>
 
@@ -55,11 +43,6 @@
 		<a href="#" @click.prevent="skip">Skip</a>
 	</p>
 
-	<ul class="help" v-if="mode === 'code'">
-		<li>Any CSS color is valid, whether supported by your browser or not.
-			This includes named colors, #hex, <code>rgb()</code>, <code>hsl()</code>, <code>oklch()</code> etc.</li>
-		<li><kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 1, <kbd>Shift</kbd> + <kbd>↑</kbd><kbd>↓</kbd> to increment/decrement by 10.</li>
-	</ul>
 
 </main>
 

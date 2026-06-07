@@ -1,13 +1,10 @@
-@import url("./icons.css");
 @import url("./components/color-board.css");
 @import url("./components/progression.css");
-@import url("./components/guess-input.css");
 @import url("./components/history-panel.css");
 
 :root {
 	--transparency: repeating-conic-gradient(silver 0 25%, transparent 0 50%) #eee 0 0 / 20px 20px round;
 	--font-ui: sans-serif;
-	--font-monospace: Consolas, Monaco, monospace;
 }
 
 * {
@@ -60,23 +57,6 @@ main {
 
 a {
 	color: inherit;
-}
-
-code {
-	font-family: var(--font-monospace);
-}
-
-kbd {
-	display: inline-block;
-	padding: .1em .4em;
-	min-width: 1em;
-	border: 1px solid hsl(220 10% 90%);
-	border-radius: .2em;
-	margin: 0 .1em;
-	background: hsl(220 10% 97%);
-	text-align: center;
-	line-height: 1;
-	font: inherit;
 }
 
 h1 {
@@ -136,50 +116,6 @@ h1 {
 	position: relative;
 	margin-top: 1em;
 	margin-bottom: 1.5em;
-}
-
-.mode-toggle {
-	display: flex;
-	width: max-content;
-	margin: .8em auto;
-	border: 1px solid hsl(220 10% 80%);
-	border-radius: .4em;
-	overflow: hidden;
-	background: hsl(220 10% 98%);
-	font-size: 90%;
-
-	& button {
-		appearance: none;
-		border: none;
-		background: none;
-		padding: .35em 1.2em;
-		color: hsl(220 10% 40%);
-		cursor: pointer;
-
-		&:not(:first-child) {
-			border-left: 1px solid hsl(220 10% 85%);
-		}
-
-		&.active {
-			background: hsl(220 10% 30%);
-			color: white;
-		}
-
-		/* Locked once a round is underway: keep the current mode legible, dim the other */
-		&:disabled {
-			cursor: default;
-		}
-
-		&:not(.active):disabled {
-			opacity: .4;
-		}
-	}
-}
-
-.help {
-	font-size: smaller;
-	color: hsl(220 10% 50%);
-	text-align: left;
 }
 
 .message {

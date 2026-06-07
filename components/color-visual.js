@@ -5,13 +5,9 @@ const template = /* html */`
 `;
 
 /**
- * Visual guessing mode: a <color-picker> (from color-elements) wrapped to speak the same
- * guess protocol as the text input. Each slider step emits a guess, so the path of colors
- * dragged through is recorded just like keystrokes are in code mode.
- * Programmatic color changes (setValue, reset) do NOT fire input, so they never leak in as guesses.
- *
- * Shares an interface with guess-input.js (setValue / reset / @guess) so the app can treat
- * both modes the same. Kept mounted (toggled with v-show) so its internal state survives mode switches.
+ * The color picker: a <color-picker> (from color-elements) wrapped to emit guesses.
+ * Each slider step emits a guess, so the whole path of colors dragged through is recorded.
+ * Programmatic color changes (reset) do NOT fire input, so they never leak in as guesses.
  */
 export default {
 	template,

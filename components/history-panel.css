@@ -34,11 +34,6 @@
 			font-size: 200%;
 			font-weight: 100;
 		}
-
-		& .mode-icon {
-			font-size: 1.3em;
-			opacity: .75;
-		}
 	}
 
 	& .share {
