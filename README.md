@@ -26,14 +26,16 @@ lib/                Framework-agnostic model layer
 
 components/          Presentational Vue components (each with a sibling .css)
   color-board.js    Target + your-guess swatches and the proximity bar
-  color-visual.js   The color picker, wrapping <color-picker> (color-elements)
   progression.js    Strip of the colors guessed, in order
   history-panel.js  Score panel: per-color cards, aggregate stats, share
 ```
 
+The guess input is color-elements’ `<color-picker>` used directly in `index.html` (no wrapper
+component); `index.js` registers it via a side-effect import and `compilerOptions.isCustomElement`.
+
 ### Guessing
 
-The picker emits `guess({ value, valid })` on every slider step, and `index.js`’s `onGuess`
+The picker fires `input` on every slider step; `index.js`’s `onPick` reads the picker’s color and
 records each distinct guess into `attempts` (driving the progression strip), while the latest one
 drives the proximity readout, the “your color” swatch, and win detection. So the progression shows
 the whole path of colors you moved through. Programmatic picker changes (the per-round reset)

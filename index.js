@@ -1,10 +1,10 @@
 import { createApp, markRaw } from "vue";
 import Color from "colorjs.io";
+import "color-elements/color-picker";
 import Round from "./lib/round.js";
 import Timer from "./lib/timer.js";
 import local from "./lib/local.js";
 import ColorBoard from "./components/color-board.js";
-import ColorVisual from "./components/color-visual.js";
 import Progression from "./components/progression.js";
 import HistoryPanel from "./components/history-panel.js";
 
@@ -23,7 +23,6 @@ const app = createApp({
 		return {
 			solution: "",       // CSS string of the color to guess
 			attempts: [],       // Guesses, in order
-			guessValid: true,   // Whether the latest guess is a valid color
 			elapsed: 0,         // Time on the clock, in tenths of a second
 			started: false,     // Whether the clock is running
 			solved: false,      // Whether the current round is won
@@ -37,9 +36,9 @@ const app = createApp({
 			return markRaw(new Round(this.solution, this.attempts));
 		},
 
-		/** Your-color swatch: the latest guess while valid, else empty (checkerboard) */
+		/** Your-color swatch: the latest guess, or "" before any guess (checkerboard) */
 		guessColor () {
-			return this.guessValid ? this.round.lastDisplay : "";
+			return this.round.lastDisplay;
 		},
 
 		proximity () {
@@ -87,8 +86,12 @@ const app = createApp({
 			this.elapsed = 0;
 			this.started = false;
 			this.solved = false;
-			this.guessValid = true;
-			this.$refs.guesser?.reset();
+			// Reset the picker to its neutral default (the midpoint of every slider).
+			// Setting .color programmatically doesn't fire `input`, so it isn't recorded as a guess.
+			let picker = this.$refs.picker;
+			if (picker) {
+				picker.color = picker.defaultColor;
+			}
 		},
 
 		/** Skip the current (unsolved) color */
@@ -111,20 +114,20 @@ const app = createApp({
 		},
 
 		/**
-		 * Handle a guess from the color picker. Every distinct valid guess is recorded, so the
-		 * progression reflects the whole path; the latest one drives proximity, the swatch, and the win.
+		 * Record a guess from the color picker on every slider step. Distinct guesses build the
+		 * progression; the latest drives proximity, the swatch, and win detection.
 		 */
-		onGuess ({ value, valid }) {
+		onPick () {
 			this.startClock();
 
 			if (this.solved) {
 				return;
 			}
 
-			this.guessValid = valid;
+			let value = this.$refs.picker.color + "";
 
-			// Skip consecutive duplicates (e.g. a no-op keystroke or a slider that didn't move)
-			if (valid && value !== "" && value !== this.attempts.at(-1)) {
+			// Skip consecutive duplicates (a slider that didn't actually move)
+			if (value && value !== this.attempts.at(-1)) {
 				this.attempts.push(value);
 			}
 		},
@@ -142,7 +145,6 @@ const app = createApp({
 
 	components: {
 		"color-board": ColorBoard,
-		"color-visual": ColorVisual,
 		"progression": Progression,
 		"history-panel": HistoryPanel,
 	},

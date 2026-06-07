@@ -18,7 +18,6 @@
 </h1>
 
 <main>
-
 	<p class="timer">{{ timer }}</p>
 
 	<color-board
@@ -29,7 +28,7 @@
 		:solved="solved"></color-board>
 
 	<div class="controls">
-		<color-visual ref="guesser" :disabled="solved" @guess="onGuess"></color-visual>
+		<color-picker ref="picker" space="oklch" :inert="solved" @input="onPick"></color-picker>
 		<progression :displays="displays"></progression>
 	</div>
 

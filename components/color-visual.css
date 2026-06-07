@@ -1,5 +1,0 @@
-/* Don't set `display` here: the picker's shadow CSS sets `:host { display: grid }`
-	for its sliders/swatch layout, and overriding it collapses that layout. */
-color-picker {
-
-}
