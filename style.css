@@ -118,6 +118,18 @@ h1 {
 	margin-bottom: 1.5em;
 }
 
+color-picker {
+	--orientation: vertical;
+
+	&::part(swatch-base) {
+		display: none;
+	}
+
+	&::part(details) {
+		font: 120%/1.4 ui-monospace, monospace;
+	}
+}
+
 .message {
 	display: none;
 	width: 24em;
@@ -173,3 +185,4 @@ footer {
 	margin-top: 1em;
 	padding: 1rem;
 }
+
