@@ -13,6 +13,12 @@ globalThis.Color = Color;
 // Minutes after which we offer to skip a stubborn color
 const SLOW_MINUTES = 3;
 
+// Optional ?space= URL param picks the color picker's color space; defaults to oklch.
+// Unknown values (typos) fall back silently rather than letting the picker warn.
+const params = new URLSearchParams(location.search);
+const requestedSpace = params.get("space")?.toLowerCase();
+const space = requestedSpace && requestedSpace in Color.spaces ? requestedSpace : "oklch";
+
 const app = createApp({
 	mixins: [
 		local({ paths: ["history"], prefix: "whathecolor/" }),
@@ -20,6 +26,7 @@ const app = createApp({
 
 	data () {
 		return {
+			space,              // Color picker space (from ?space=, defaults to oklch)
 			solution: "",       // CSS string of the color to guess
 			attempts: [],       // Guesses, in order
 			elapsed: 0,         // Time on the clock, in tenths of a second

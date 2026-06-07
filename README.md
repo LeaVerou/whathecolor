@@ -43,6 +43,9 @@ drives the proximity readout, the “your color” swatch, and win detection. So
 the whole path of colors you moved through. Programmatic picker changes (the per-round reset)
 don’t fire `input`, so they never leak in as guesses.
 
+The picker’s color space defaults to OKLCh; append `?space=<id>` (e.g. `?space=hsl`, `?space=srgb`)
+to start in any [Color.js](https://colorjs.io) space. Unknown ids fall back to OKLCh.
+
 ### Data model
 
 The mutable game state lives in `index.js` as plain reactive data: the `solution`, the list of
