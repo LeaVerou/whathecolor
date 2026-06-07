@@ -4,7 +4,6 @@ import "color-elements/color-picker";
 import Round from "./lib/round.js";
 import Timer from "./lib/timer.js";
 import local from "./lib/local.js";
-import ColorBoard from "./components/color-board.js";
 import Progression from "./components/progression.js";
 import HistoryPanel from "./components/history-panel.js";
 
@@ -45,8 +44,17 @@ const app = createApp({
 			return this.round.proximity;
 		},
 
+		percent () {
+			return Math.round(this.proximity * 100) + "%";
+		},
+
 		deltaE () {
 			return this.round.deltaE;
+		},
+
+		/** Tooltip on the proximity bar showing the raw ΔE */
+		deltaTitle () {
+			return this.deltaE == null ? null : `DeltaE OK = ${this.deltaE}`;
 		},
 
 		displays () {
@@ -144,7 +152,6 @@ const app = createApp({
 	},
 
 	components: {
-		"color-board": ColorBoard,
 		"progression": Progression,
 		"history-panel": HistoryPanel,
 	},
