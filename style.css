@@ -104,9 +104,19 @@ h1 {
 	}
 }
 
-.timer {
+.status {
+	display: flex;
+	align-items: center;
+	gap: .8em;
 	margin-bottom: .5em;
+}
+
+.timer {
 	font-size: 250%;
+
+	.solved & {
+		color: hsl(95 75% 35%);
+	}
 }
 
 .controls {
@@ -141,6 +151,12 @@ color-picker {
 		display: block;
 	}
 
+	/* Inline next to the timer rather than a centered block */
+	.status & {
+		width: auto;
+		margin: 0;
+	}
+
 	& a {
 		display: inline-block;
 		padding: .2em .5em;
@@ -160,6 +176,7 @@ color-picker {
 	}
 
 	&.success {
+		margin-inline-start: auto;
 		border: 1px solid hsl(80, 100%, 45%);
 		background: hsl(80, 100%, 90%);
 		color: hsl(80, 100%, 20%);

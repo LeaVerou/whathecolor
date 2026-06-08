@@ -17,8 +17,14 @@
 	What the <span>color?</span>
 </h1>
 
-<main>
-	<p class="timer">{{ timer }}</p>
+<main :class="{ solved }">
+	<div class="status">
+		<p class="timer">{{ timer }}</p>
+		<p class="message success" :class="{ show: solved }" role="status" aria-live="polite">
+			Yay! You got it!
+			<a href="#" @click.prevent="newRound">Next</a>
+		</p>
+	</div>
 
 	<div class="color-board">
 		<label class="proximity" :class="{ success: solved }" :style="{ '--proximity': proximity }" :title="deltaTitle">
@@ -39,11 +45,6 @@
 			<div v-for="(color, i) in displays" :key="i" :style="{ background: color }"></div>
 		</div>
 	</div>
-
-	<p class="message success" :class="{ show: solved }" role="status" aria-live="polite">
-		Yay! You got it!
-		<a href="#" @click.prevent="newRound">Next</a>
-	</p>
 
 	<p class="message slow" :class="{ show: showSlow }" role="status" aria-live="polite">
 		Looks like this color is taking you a bit long. Wanna skip it?
