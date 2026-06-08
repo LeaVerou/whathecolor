@@ -7,6 +7,7 @@ const template = /* html */`
 	<div class="history">
 		<article class="color" v-for="(entry, i) in history" :key="i" :style="entryStyle(entry)">
 			<span class="time">{{ time(entry) }}</span>
+			<span class="space" v-if="entry.space">{{ entry.space }}</span>
 		</article>
 	</div>
 	<button class="share" v-if="count" @click="share">Share score</button>
@@ -18,6 +19,7 @@ const template = /* html */`
  * @property {string} color - CSS string of the solved color
  * @property {number} ms100 - Time taken, in tenths of a second
  * @property {string[]} attempts - Distinct guess colors made, in order
+ * @property {string} [space] - Color picker space used to solve it (e.g. "oklch")
  */
 
 /**

@@ -157,6 +157,7 @@ const app = createApp({
 				color: this.solution,
 				ms100: this.elapsed,
 				attempts: this.round.unique,
+				space: this.space,
 			});
 		},
 	},

@@ -34,6 +34,16 @@
 			font-size: 200%;
 			font-weight: 100;
 		}
+
+		& .space {
+			padding: .15em .5em;
+			border-radius: 1em;
+			background: hsl(0 0% 100% / .25);
+			font-size: 75%;
+			font-weight: bold;
+			text-transform: uppercase;
+			letter-spacing: .05em;
+		}
 	}
 
 	& .share {
