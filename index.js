@@ -15,7 +15,7 @@ const SLOW_MINUTES = 3;
 const params = new URLSearchParams(location.search);
 
 // Optional ?color= fixes the color to guess ("challenge mode"): history is hidden and winning
-// offers "Try again" (same color) instead of "Next" (a fresh random color). Unparseable values
+// offers "Replay" (same color) instead of "Next" (a fresh random color). Unparseable values
 // fall back silently to the normal random game.
 let challengeColor = null;
 try {
@@ -27,14 +27,17 @@ try {
 catch (e) {
 	// Unparseable ?color= — play the normal random game
 }
-const challenge = challengeColor?.toString() ?? null;
 
 // Optional ?space= picks the color picker's color space. A ?color= challenge defaults to that
 // color's own space; an explicit ?space= overrides it. Otherwise (and on unknown ids) oklch.
 // NOTE the challenge color's space might be one the picker can't render; revisit if it comes up.
 const requestedSpace = params.get("space")?.toLowerCase();
-const defaultSpace = challengeColor?.space.id ?? "oklch";
-const space = requestedSpace && requestedSpace in Color.spaces ? requestedSpace : defaultSpace;
+const spaceOverride = requestedSpace && requestedSpace in Color.spaces ? requestedSpace : null;
+const space = spaceOverride ?? challengeColor?.space.id ?? "oklch";
+
+// Re-express the challenge color only when ?space= overrides its own space, so the target and your
+// guesses share coordinates. Without an override, keep the color exactly as given.
+const challenge = challengeColor ? (spaceOverride ? challengeColor.to(spaceOverride) : challengeColor).toString() : null;
 
 const app = createApp({
 	mixins: [
