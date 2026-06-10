@@ -47,6 +47,11 @@ don’t fire `input`, so they never leak in as guesses.
 The picker’s color space defaults to OKLCh; append `?space=<id>` (e.g. `?space=hsl`, `?space=srgb`)
 to start in any [Color.js](https://colorjs.io) space. Unknown ids fall back to OKLCh.
 
+Append `?color=<css>` (e.g. `?color=oklch(70%25 0.15 200)`) for **challenge mode**: a fixed color
+to guess instead of a random one. The picker defaults to that color’s own space (an explicit
+`?space=` still wins), history is hidden, and winning offers “Try again” (the same color) rather
+than “Next”. Unparseable colors fall back to the normal random game.
+
 ### Data model
 
 The mutable game state lives in `index.js` as plain reactive data: the `solution`, the list of

@@ -12,11 +12,29 @@ globalThis.Color = Color;
 // Minutes after which we offer to skip a stubborn color
 const SLOW_MINUTES = 3;
 
-// Optional ?space= URL param picks the color picker's color space; defaults to oklch.
-// Unknown values (typos) fall back silently rather than letting the picker warn.
 const params = new URLSearchParams(location.search);
+
+// Optional ?color= fixes the color to guess ("challenge mode"): history is hidden and winning
+// offers "Try again" (same color) instead of "Next" (a fresh random color). Unparseable values
+// fall back silently to the normal random game.
+let challengeColor = null;
+try {
+	let requested = params.get("color");
+	if (requested) {
+		challengeColor = new Color(requested);
+	}
+}
+catch (e) {
+	// Unparseable ?color= — play the normal random game
+}
+const challenge = challengeColor?.toString() ?? null;
+
+// Optional ?space= picks the color picker's color space. A ?color= challenge defaults to that
+// color's own space; an explicit ?space= overrides it. Otherwise (and on unknown ids) oklch.
+// NOTE the challenge color's space might be one the picker can't render; revisit if it comes up.
 const requestedSpace = params.get("space")?.toLowerCase();
-const space = requestedSpace && requestedSpace in Color.spaces ? requestedSpace : "oklch";
+const defaultSpace = challengeColor?.space.id ?? "oklch";
+const space = requestedSpace && requestedSpace in Color.spaces ? requestedSpace : defaultSpace;
 
 const app = createApp({
 	mixins: [
@@ -26,6 +44,7 @@ const app = createApp({
 	data () {
 		return {
 			space,              // Color picker space (from ?space=, defaults to oklch)
+			challenge,          // Fixed color to guess (from ?color=), or null in normal random mode
 			solution: "",       // CSS string of the color to guess
 			attempts: [],       // Guesses, in order
 			elapsed: 0,         // Time on the clock, in tenths of a second
@@ -75,9 +94,9 @@ const app = createApp({
 			return new Timer(this.elapsed);
 		},
 
-		/** Offer to skip once a color has taken a while and isn't solved yet */
+		/** Offer to skip once a color has taken a while and isn't solved yet (not in challenge mode, where there's only one color) */
 		showSlow () {
-			return this.started && !this.solved && this.timer.minutes >= SLOW_MINUTES;
+			return this.started && !this.solved && !this.challenge && this.timer.minutes >= SLOW_MINUTES;
 		},
 	},
 
@@ -95,11 +114,10 @@ const app = createApp({
 	},
 
 	methods: {
-		/** Start a fresh round with a random color */
+		/** Start a fresh round: the fixed challenge color, or a random one in normal mode */
 		newRound () {
 			this.stopClock();
-			let color = new Color("srgb", [Math.random(), Math.random(), Math.random()]);
-			this.solution = color.toString();
+			this.solution = this.challenge ?? new Color("srgb", [Math.random(), Math.random(), Math.random()]).toString();
 			this.attempts = [];
 			this.elapsed = 0;
 			this.started = false;
@@ -153,6 +171,10 @@ const app = createApp({
 		win () {
 			this.solved = true;
 			this.stopClock();
+			// Challenge-mode wins aren't recorded — that history is hidden and would be one color repeated
+			if (this.challenge) {
+				return;
+			}
 			this.history.push({
 				color: this.solution,
 				ms100: this.elapsed,

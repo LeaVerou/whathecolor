@@ -42,6 +42,11 @@ body {
 		flex-flow: column;
 		font-size: 80%;
 	}
+
+	/* Challenge mode hides the history panel, so collapse the column it would occupy */
+	&:not(:has(.successes)) {
+		grid-template-columns: auto 1fr 0;
+	}
 }
 
 main {
